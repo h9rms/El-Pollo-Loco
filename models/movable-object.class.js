@@ -6,4 +6,8 @@ class MovableObject {
     moveRight() {
         console.log("Move right");
     }
+
+    moveLeft(){
+        
+    }
 }
