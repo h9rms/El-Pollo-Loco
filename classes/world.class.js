@@ -1,7 +1,8 @@
-import { Character } from "./character.class.js";
-import { StatusBar } from "./status-bar.class.js";
-import { ThrowableObject } from "./throwable-object.class.js";
+import { Character } from "../classes/character.class.js";
+import { StatusBar } from "../classes/status-bar.class.js";
+import { ThrowableObject } from "../classes/throwable-object.class.js";
 import { level1 } from "../levels/level1.js";
+import { IntervalHub } from "../hubs/interval-hub.class.js";
 
 export class World {
     character = new Character();
@@ -27,7 +28,7 @@ export class World {
     }
 
     run() {
-        setInterval(() => {
+        IntervalHub.startInterval(() => {
             this.checkCollision();
             this.checkThrowObjects();
         }, 200);

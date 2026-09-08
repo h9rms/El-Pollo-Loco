@@ -1,4 +1,5 @@
 import { MovableObject } from "./movable-object.class.js";
+import { IntervalHub } from "../hubs/interval-hub.class.js";
 
 export class Endboss extends MovableObject {
     height = 400;
@@ -23,7 +24,7 @@ export class Endboss extends MovableObject {
         this.animate();
     }
     animate() {
-        setInterval(() => {
+        IntervalHub.startInterval(() => {
             this.playAnimation(this.IMAGES_WALKING);
         }, 200);
     }

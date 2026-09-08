@@ -1,4 +1,5 @@
 import { MovableObject } from "./movable-object.class.js";
+import { IntervalHub } from "../hubs/interval-hub.class.js";
 
 export class Character extends MovableObject {
     height = 280;
@@ -56,7 +57,7 @@ export class Character extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        IntervalHub.startInterval(() => {
             if (
                 this.world.keyboard.RIGHT &&
                 this.x < this.world.level.level_end_x
@@ -76,7 +77,7 @@ export class Character extends MovableObject {
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
-        setInterval(() => {
+        IntervalHub.startInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {

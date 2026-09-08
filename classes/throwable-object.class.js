@@ -1,4 +1,5 @@
 import { MovableObject } from "./movable-object.class.js";
+import { IntervalHub } from "../hubs/interval-hub.class.js";
 
 export class ThrowableObject extends MovableObject {
     alwaysAboveGround = true;
@@ -15,7 +16,7 @@ export class ThrowableObject extends MovableObject {
     throw(){
         this.speedY = 30;
         this.applyGravity();
-        setInterval(() => {
+        IntervalHub.startInterval(() => {
             this.x += 10;
         }, 25);
     }
