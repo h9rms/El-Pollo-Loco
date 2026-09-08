@@ -4,7 +4,8 @@ import { Endboss } from "../classes/endboss.class.js";
 import { Cloud } from "../classes/cloud.class.js";
 import { BackgroundObject } from "../classes/background-object.class.js";
 
-export const level1 = new Level(
+export function createLevel1() {
+    return new Level(
     [
     new Chicken(), 
     new Chicken(), 
@@ -39,4 +40,5 @@ export const level1 = new Level(
     new BackgroundObject("assets/img/assets/images/5_background/layers/1_first_layer/2.png",720*3,),
     ]
 
-);
+    );
+}

@@ -17,6 +17,26 @@ function startGame() {
     init();
 }
 
+function showEndScreen(won) {
+    canvas.style.display = "none";
+    let endScreen = document.getElementById("end-screen");
+    document.getElementById("end-screen-title").textContent = won ? "Gewonnen!" : "Game Over";
+    endScreen.classList.toggle("won", won);
+    endScreen.classList.toggle("lost", !won);
+    endScreen.style.display = "flex";
+}
+
+function restartGame() {
+    document.getElementById("end-screen").style.display = "none";
+    canvas.style.display = "block";
+    init();
+}
+
+function goHome() {
+    document.getElementById("end-screen").style.display = "none";
+    document.getElementById("start-screen").style.display = "flex";
+}
+
 function setupControlsDialog() {
     let dialog = document.getElementById("controls-dialog");
 
@@ -38,7 +58,13 @@ function setupControlsDialog() {
 window.addEventListener("DOMContentLoaded", () => {
     canvas = document.getElementById("canvas");
     document.getElementById("startBtn").addEventListener("click", startGame);
+    document.getElementById("restartBtn").addEventListener("click", restartGame);
+    document.getElementById("homeBtn").addEventListener("click", goHome);
     setupControlsDialog();
+});
+
+window.addEventListener("gameOver", (e) => {
+    showEndScreen(e.detail.won);
 });
 
 window.addEventListener("keydown", (e) => {

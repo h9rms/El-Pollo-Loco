@@ -2,12 +2,12 @@ import { Character } from "../classes/character.class.js";
 import { StatusBar } from "../classes/status-bar.class.js";
 import { ThrowableObject } from "../classes/throwable-object.class.js";
 import { Endboss } from "../classes/endboss.class.js";
-import { level1 } from "../levels/level1.js";
+import { createLevel1 } from "../levels/level1.js";
 import { IntervalHub } from "../hubs/interval-hub.class.js";
 
 export class World {
     character = new Character();
-    level = level1;
+    level = createLevel1();
     canvas;
     ctx;
     keyboard;
@@ -15,6 +15,7 @@ export class World {
     statusBar = new StatusBar();
     throwableObjects = [];
     throwLocked = false;
+    gameOver = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -33,6 +34,8 @@ export class World {
         IntervalHub.startInterval(() => {
             this.checkCollision();
             this.checkThrowObjects();
+            this.checkBottleCollisions();
+            this.checkGameOver();
         }, 200);
     }
 
@@ -69,6 +72,33 @@ export class World {
         if (index > -1) {
             this.level.enemies.splice(index, 1);
         }
+    }
+
+    checkBottleCollisions() {
+        this.throwableObjects.forEach((bottle) => {
+            [...this.level.enemies].forEach((enemy) => {
+                if (bottle.isColliding(enemy)) {
+                    this.killEnemy(enemy);
+                }
+            });
+        });
+    }
+
+    checkGameOver() {
+        if (this.gameOver) {
+            return;
+        }
+        if (this.character.isDead()) {
+            this.endGame(false);
+        } else if (!this.level.enemies.some((enemy) => enemy instanceof Endboss)) {
+            this.endGame(true);
+        }
+    }
+
+    endGame(won) {
+        this.gameOver = true;
+        IntervalHub.stopAllIntervals();
+        window.dispatchEvent(new CustomEvent("gameOver", { detail: { won: won } }));
     }
 
     draw() {
