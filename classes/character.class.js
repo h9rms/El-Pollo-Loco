@@ -11,6 +11,9 @@ export class Character extends MovableObject {
     IMAGES_JUMPING = ImageHub.character.jumping;
     IMAGES_DEAD = ImageHub.character.dead;
     IMAGES_HURT = ImageHub.character.hurt;
+    IMAGES_IDLE = ImageHub.character.idle;
+    IMAGES_LONG_IDLE = ImageHub.character.longIdle;
+    lastActionTime = new Date().getTime();
 
     world;
     constructor() {
@@ -19,6 +22,8 @@ export class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_LONG_IDLE);
         this.applyGravity();
         this.animate();
     }
@@ -31,14 +36,17 @@ export class Character extends MovableObject {
             ) {
                 this.moveRight();
                 this.otherDirection = false;
+                this.lastActionTime = new Date().getTime();
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
+                this.lastActionTime = new Date().getTime();
             }
 
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
+                this.lastActionTime = new Date().getTime();
             }
 
             this.world.camera_x = -this.x + 100;
@@ -51,12 +59,19 @@ export class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_WALKING);
+            } else if (this.isLongIdle()) {
+                this.playAnimation(this.IMAGES_LONG_IDLE);
             } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
+                this.playAnimation(this.IMAGES_IDLE);
             }
         }, 50);
+    }
+
+    isLongIdle() {
+        let timeSinceAction = new Date().getTime() - this.lastActionTime;
+        return timeSinceAction > 15000;
     }
 
     jump() {
