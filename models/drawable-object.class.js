@@ -1,4 +1,4 @@
-class DrawableObject {
+export class DrawableObject {
     img;
     imageCache = {};
     currentImage = 0;
@@ -17,7 +17,7 @@ class DrawableObject {
     }
 
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken) {
+        if (this.drawFrameEnabled) {
             ctx.beginPath();
             ctx.lineWidth = "5";
             ctx.strokeStyle = "blue";
