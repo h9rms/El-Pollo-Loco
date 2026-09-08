@@ -43,6 +43,15 @@ export class ImageHub {
         ],
     };
 
+    static smallChicken = {
+        walking: [
+            "assets/img/assets/images/3_enemies_chicken/chicken_small/1_walk/1_w.png",
+            "assets/img/assets/images/3_enemies_chicken/chicken_small/1_walk/2_w.png",
+            "assets/img/assets/images/3_enemies_chicken/chicken_small/1_walk/3_w.png",
+        ],
+        dead: "assets/img/assets/images/3_enemies_chicken/chicken_small/2_dead/dead.png",
+    };
+
     static endboss = {
         alert: [
             "assets/img/assets/images/4_enemie_boss_chicken/2_alert/G5.png",
@@ -65,5 +74,25 @@ export class ImageHub {
             "assets/img/assets/images/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png",
             "assets/img/assets/images/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png",
         ],
+        coin: [
+            "assets/img/assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png",
+            "assets/img/assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png",
+            "assets/img/assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png",
+            "assets/img/assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/60.png",
+            "assets/img/assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png",
+            "assets/img/assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png",
+        ],
+        bottle: [
+            "assets/img/assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png",
+            "assets/img/assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png",
+            "assets/img/assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png",
+            "assets/img/assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png",
+            "assets/img/assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png",
+            "assets/img/assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png",
+        ],
     };
+
+    static coin = "assets/img/assets/images/8_coin/coin_2.png";
+
+    static bottlePickup = "assets/img/assets/images/6_salsa_bottle/salsa_bottle.png";
 }

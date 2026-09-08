@@ -2,12 +2,13 @@ import { DrawableObject } from "./drawable-object.class.js";
 import { ImageHub } from "../hubs/image-hub.class.js";
 
 export class StatusBar extends DrawableObject {
-    IMAGES = ImageHub.statusBar.health;
+    IMAGES;
 
     percentage = 100;
 
-    constructor() {
+    constructor(images = ImageHub.statusBar.health) {
         super();
+        this.IMAGES = images;
         this.loadImages(this.IMAGES);
         this.x = 40;
         this.y = 0;
