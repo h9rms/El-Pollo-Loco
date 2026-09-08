@@ -1,4 +1,6 @@
-class Endboss extends MovableObject {
+import { MovableObject } from "./movable-object.class.js";
+
+export class Endboss extends MovableObject {
     height = 400;
     width = 250;
     y =  55;

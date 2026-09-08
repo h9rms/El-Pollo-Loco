@@ -1,7 +1,10 @@
-class Character extends MovableObject {
+import { MovableObject } from "./movable-object.class.js";
+
+export class Character extends MovableObject {
     height = 280;
     y = 80;
     speed = 10;
+    drawFrameEnabled = true;
     IMAGES_WALKING = [
         "assets/img/assets/images/2_character_pepe/2_walk/W-21.png",
         "assets/img/assets/images/2_character_pepe/2_walk/W-22.png",

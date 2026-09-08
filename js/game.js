@@ -1,3 +1,6 @@
+import { World } from "../classes/world.class.js";
+import { Keyboard } from "../classes/keyboard.class.js";
+
 let canvas;
 let world;
 let keyboard = new Keyboard();
@@ -7,6 +10,10 @@ function init() {
     world = new World(canvas, keyboard);
     console.log("my character is,", world.character);
 }
+
+// init() an window haengen, damit index.html es weiterhin
+// ueber <body onload="init()"> aufrufen kann (Module sind nicht global).
+window.init = init;
 
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) {

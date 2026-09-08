@@ -1,4 +1,10 @@
-const level1 = new Level(
+import { Level } from "../classes/level.class.js";
+import { Chicken } from "../classes/chicken.class.js";
+import { Endboss } from "../classes/endboss.class.js";
+import { Cloud } from "../classes/cloud.class.js";
+import { BackgroundObject } from "../classes/background-object.class.js";
+
+export const level1 = new Level(
     [
     new Chicken(), 
     new Chicken(), 

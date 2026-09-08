@@ -1,7 +1,10 @@
-class Chicken extends MovableObject {
+import { MovableObject } from "./movable-object.class.js";
+
+export class Chicken extends MovableObject {
     y = 350;
     height = 80;
     width = 80;
+    drawFrameEnabled = true;
     IMAGES_WALKING = [
         "assets/img/assets/images/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
         "assets/img/assets/images/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
