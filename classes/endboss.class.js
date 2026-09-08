@@ -6,6 +6,8 @@ export class Endboss extends MovableObject {
     height = 400;
     width = 250;
     y =  55;
+    energy = 20;
+    maxEnergy = 20;
     IMAGES_WALKING = ImageHub.endboss.alert;
 
     constructor() {

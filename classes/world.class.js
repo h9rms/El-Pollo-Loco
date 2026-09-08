@@ -13,6 +13,7 @@ export class World {
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar();
+    endbossStatusBar = new StatusBar();
     throwableObjects = [];
     throwLocked = false;
     gameOver = false;
@@ -21,6 +22,7 @@ export class World {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.endbossStatusBar.x = 480;
         this.draw();
         this.setWorld();
         this.run();
@@ -75,13 +77,33 @@ export class World {
     }
 
     checkBottleCollisions() {
-        this.throwableObjects.forEach((bottle) => {
+        [...this.throwableObjects].forEach((bottle) => {
             [...this.level.enemies].forEach((enemy) => {
                 if (bottle.isColliding(enemy)) {
-                    this.killEnemy(enemy);
+                    this.damageEnemy(enemy);
+                    this.removeBottle(bottle);
                 }
             });
         });
+    }
+
+    damageEnemy(enemy) {
+        if (enemy instanceof Endboss) {
+            enemy.hit();
+            this.endbossStatusBar.setPercentage((enemy.energy / enemy.maxEnergy) * 100);
+            if (enemy.isDead()) {
+                this.killEnemy(enemy);
+            }
+        } else {
+            this.killEnemy(enemy);
+        }
+    }
+
+    removeBottle(bottle) {
+        let index = this.throwableObjects.indexOf(bottle);
+        if (index > -1) {
+            this.throwableObjects.splice(index, 1);
+        }
     }
 
     checkGameOver() {
@@ -101,6 +123,14 @@ export class World {
         window.dispatchEvent(new CustomEvent("gameOver", { detail: { won: won } }));
     }
 
+    isEndbossNear() {
+        let endboss = this.level.enemies.find((enemy) => enemy instanceof Endboss);
+        if (!endboss) {
+            return false;
+        }
+        return Math.abs(this.character.x - endboss.x) < 500;
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -109,6 +139,9 @@ export class World {
 
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.statusBar);
+        if (this.isEndbossNear()) {
+            this.addToMap(this.endbossStatusBar);
+        }
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
