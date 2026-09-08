@@ -1,6 +1,7 @@
 import { Character } from "../classes/character.class.js";
 import { StatusBar } from "../classes/status-bar.class.js";
 import { ThrowableObject } from "../classes/throwable-object.class.js";
+import { Endboss } from "../classes/endboss.class.js";
 import { level1 } from "../levels/level1.js";
 import { IntervalHub } from "../hubs/interval-hub.class.js";
 
@@ -13,6 +14,7 @@ export class World {
     camera_x = 0;
     statusBar = new StatusBar();
     throwableObjects = [];
+    throwLocked = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -35,19 +37,38 @@ export class World {
     }
 
     checkThrowObjects(){
-        if(this.keyboard.F){
+        if(this.keyboard.F && !this.throwLocked){
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
+            this.throwLocked = true;
+        }
+        if(!this.keyboard.F){
+            this.throwLocked = false;
         }
     }
 
     checkCollision() {
-        this.level.enemies.forEach((enemy) => {
+        [...this.level.enemies].forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.statusBar.setPercentage(this.character.energy);
+                if (this.isJumpingOnTop(enemy) && !(enemy instanceof Endboss)) {
+                    this.killEnemy(enemy);
+                } else if (!this.character.isHurt()) {
+                    this.character.hit();
+                    this.statusBar.setPercentage(this.character.energy);
+                }
             }
         });
+    }
+
+    isJumpingOnTop(enemy) {
+        return this.character.y + this.character.height < enemy.y + enemy.height / 2;
+    }
+
+    killEnemy(enemy) {
+        let index = this.level.enemies.indexOf(enemy);
+        if (index > -1) {
+            this.level.enemies.splice(index, 1);
+        }
     }
 
     draw() {
