@@ -3,14 +3,29 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="style.css" />
-        <script type="module" src="./js/game.js"></script>
         <title>El Pollo Loco</title>
     </head>
-    <body onload="init()">
-        <h1>El Pollo Loco</h1>
- 
-        <canvas id="canvas" width="720" height="480"> </canvas>
- 
-        
+    <body>
+        <div id="start-screen">
+            <h1>El Pollo Loco</h1>
+            <div class="start-buttons">
+                <button id="startBtn">Spiel starten</button>
+                <button id="controlsBtn">Steuerung anzeigen</button>
+            </div>
+        </div>
+
+        <dialog id="controls-dialog">
+            <button id="closeControlsBtn" class="dialog-close">&times;</button>
+            <h2>Steuerung</h2>
+            <ul>
+                <li>&larr; / &rarr; &ndash; Laufen</li>
+                <li>Leertaste &ndash; Springen</li>
+                <li>F &ndash; Flasche werfen</li>
+            </ul>
+        </dialog>
+
+        <canvas id="canvas" width="720" height="480" style="display:none;"></canvas>
+
+        <script type="module" src="./js/game.js"></script>
     </body>
 </html>

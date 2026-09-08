@@ -7,3 +7,61 @@ body{
 canvas{
     background-color: black;
 }
+
+#start-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 720px;
+    height: 480px;
+    /* TODO: Pfad pruefen/anpassen, sobald der genaue Dateiname aus
+       9_intro_outro_screens bekannt ist */
+    background-image: url("assets/img/assets/images/9_intro_outro_screens/start/startscreen_1.png");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+}
+
+.start-buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.start-buttons button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#controls-dialog {
+    border: none;
+    border-radius: 8px;
+    padding: 24px 32px;
+    max-width: 320px;
+}
+
+#controls-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#controls-dialog ul {
+    list-style: none;
+    padding: 0;
+}
+
+#controls-dialog li {
+    margin: 8px 0;
+}

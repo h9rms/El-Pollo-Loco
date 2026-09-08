@@ -11,9 +11,35 @@ function init() {
     console.log("my character is,", world.character);
 }
 
-// init() an window haengen, damit index.html es weiterhin
-// ueber <body onload="init()"> aufrufen kann (Module sind nicht global).
-window.init = init;
+function startGame() {
+    document.getElementById("start-screen").style.display = "none";
+    canvas.style.display = "block";
+    init();
+}
+
+function setupControlsDialog() {
+    let dialog = document.getElementById("controls-dialog");
+
+    document.getElementById("controlsBtn").addEventListener("click", () => {
+        dialog.showModal();
+    });
+
+    document.getElementById("closeControlsBtn").addEventListener("click", () => {
+        dialog.close();
+    });
+
+    dialog.addEventListener("click", (e) => {
+        if (e.target === dialog) {
+            dialog.close();
+        }
+    });
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    canvas = document.getElementById("canvas");
+    document.getElementById("startBtn").addEventListener("click", startGame);
+    setupControlsDialog();
+});
 
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) {
