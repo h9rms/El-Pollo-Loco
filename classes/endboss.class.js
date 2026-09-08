@@ -1,20 +1,12 @@
 import { MovableObject } from "./movable-object.class.js";
 import { IntervalHub } from "../hubs/interval-hub.class.js";
+import { ImageHub } from "../hubs/image-hub.class.js";
 
 export class Endboss extends MovableObject {
     height = 400;
     width = 250;
     y =  55;
-    IMAGES_WALKING = [
-        "assets/img/assets/images/4_enemie_boss_chicken/2_alert/G5.png",
-        "assets/img/assets/images/4_enemie_boss_chicken/2_alert/G6.png",
-        "assets/img/assets/images/4_enemie_boss_chicken/2_alert/G7.png",
-        "assets/img/assets/images/4_enemie_boss_chicken/2_alert/G8.png",
-        "assets/img/assets/images/4_enemie_boss_chicken/2_alert/G9.png",
-        "assets/img/assets/images/4_enemie_boss_chicken/2_alert/G10.png",
-        "assets/img/assets/images/4_enemie_boss_chicken/2_alert/G11.png",
-        "assets/img/assets/images/4_enemie_boss_chicken/2_alert/G12.png",
-    ];
+    IMAGES_WALKING = ImageHub.endboss.alert;
 
     constructor() {
         super();
