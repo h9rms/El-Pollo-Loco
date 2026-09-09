@@ -72,6 +72,26 @@ function updateMuteButtonIcon(button) {
     button.innerHTML = AudioHub.muted ? "&#128263;" : "&#128266;";
 }
 
+function setupMobileControls() {
+    bindControlButton("btnLeft", () => keyboard.LEFT = true, () => keyboard.LEFT = false);
+    bindControlButton("btnRight", () => keyboard.RIGHT = true, () => keyboard.RIGHT = false);
+    bindControlButton("btnJump", () => keyboard.SPACE = true, () => keyboard.SPACE = false);
+    bindControlButton("btnThrow", () => keyboard.F = true, () => keyboard.F = false);
+}
+
+function bindControlButton(id, onPress, onRelease) {
+    let button = document.getElementById(id);
+    button.addEventListener("contextmenu", (e) => e.preventDefault());
+    button.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        onPress();
+    }, { passive: false });
+    button.addEventListener("touchend", (e) => {
+        e.preventDefault();
+        onRelease();
+    }, { passive: false });
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     canvas = document.getElementById("canvas");
     document.getElementById("startBtn").addEventListener("click", startGame);
@@ -79,6 +99,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("homeBtn").addEventListener("click", goHome);
     setupControlsDialog();
     setupMuteButton();
+    setupMobileControls();
 });
 
 window.addEventListener("gameOver", (e) => {
