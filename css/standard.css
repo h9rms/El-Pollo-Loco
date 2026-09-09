@@ -1,0 +1,45 @@
+/* fredoka-regular - latin */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Fredoka";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../assets/fonts/fredoka-v17-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+ */
+}
+
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Bangers";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../assets/fonts/bangers-v25-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+ */
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url("../assets/img/assets/images/5_background/background_start_end.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    min-height: 100dvh;
+    font-family: "Fredoka", sans-serif;
+}
+
+h1 {
+    font-family: "Bangers", cursive;
+}
+
+button {
+    font-family: inherit;
+}

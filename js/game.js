@@ -92,6 +92,14 @@ function bindControlButton(id, onPress, onRelease) {
     }, { passive: false });
 }
 
+function positionPageTitle() {
+    let wrapper = document.getElementById("game-wrapper");
+    let title = document.getElementById("page-title");
+    let wrapperTop = wrapper.getBoundingClientRect().top;
+    let titleHeight = title.offsetHeight;
+    title.style.top = (wrapperTop / 2 - titleHeight / 2) + "px";
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     canvas = document.getElementById("canvas");
     document.getElementById("startBtn").addEventListener("click", startGame);
@@ -100,7 +108,11 @@ window.addEventListener("DOMContentLoaded", () => {
     setupControlsDialog();
     setupMuteButton();
     setupMobileControls();
+    positionPageTitle();
+    document.fonts.ready.then(positionPageTitle);
 });
+
+window.addEventListener("resize", positionPageTitle);
 
 window.addEventListener("gameOver", (e) => {
     showEndScreen(e.detail.won);
