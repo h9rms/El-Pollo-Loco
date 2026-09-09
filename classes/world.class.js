@@ -49,6 +49,16 @@ export class World {
         }
     }
 
+    updateCamera() {
+        let endboss = this.level.enemies.find((enemy) => enemy instanceof Endboss);
+        if (endboss && this.isEndbossNear()) {
+            let midX = (this.character.x + endboss.x) / 2;
+            this.camera_x = -midX + 360;
+        } else {
+            this.camera_x = -this.character.x + 100;
+        }
+    }
+
     run() {
         IntervalHub.startInterval(() => {
             this.checkCollision();
@@ -241,6 +251,7 @@ export class World {
     }
 
     draw() {
+        this.updateCamera();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
