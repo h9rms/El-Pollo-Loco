@@ -10,6 +10,7 @@ export class Endboss extends MovableObject {
     maxEnergy = 20;
     dead = false;
     isHurtState = false;
+    hasEngaged = false;
     world;
 
     IMAGES_WALKING = ImageHub.endboss.walking;
@@ -39,7 +40,7 @@ export class Endboss extends MovableObject {
 
         IntervalHub.startInterval(() => {
             if (this.dead) {
-                this.playAnimation(this.IMAGES_DEAD);
+                return;
             } else if (this.isHurtState) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAttacking()) {
@@ -62,7 +63,7 @@ export class Endboss extends MovableObject {
         }
         if (this.world.character.x < this.x) {
             this.moveLeft();
-        } else {
+        } else if (this.x < this.world.level.level_end_x) {
             this.moveRight();
         }
     }
@@ -71,7 +72,11 @@ export class Endboss extends MovableObject {
         if (!this.world) {
             return false;
         }
-        return Math.abs(this.world.character.x - this.x) < 500;
+        let near = Math.abs(this.world.character.x - this.x) < 500;
+        if (near) {
+            this.hasEngaged = true;
+        }
+        return this.hasEngaged;
     }
 
     isAttacking() {

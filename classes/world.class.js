@@ -51,12 +51,12 @@ export class World {
 
     updateCamera() {
         let endboss = this.level.enemies.find((enemy) => enemy instanceof Endboss);
-        if (endboss && this.isEndbossNear()) {
-            let midX = (this.character.x + endboss.x) / 2;
-            this.camera_x = -midX + 360;
-        } else {
-            this.camera_x = -this.character.x + 100;
+        let offset = 100;
+        if (endboss && this.isEndbossNear() && endboss.x < this.character.x) {
+            offset = 350;
         }
+        let targetCameraX = -this.character.x + offset;
+        this.camera_x += (targetCameraX - this.camera_x) * 0.15;
     }
 
     run() {
@@ -112,10 +112,29 @@ export class World {
         }
         enemy.dead = true;
         this.playEnemyDeathSound(enemy);
-        this.showDeathImage(enemy);
+        if (enemy instanceof Endboss) {
+            this.playEndbossDeathSequence(enemy);
+        } else {
+            this.showDeathImage(enemy);
+            setTimeout(() => {
+                this.removeEnemyFromLevel(enemy);
+            }, 900);
+        }
+    }
+
+    playEndbossDeathSequence(enemy) {
+        let frameDelay = 600;
+        enemy.IMAGES_DEAD.forEach((path, index) => {
+            setTimeout(() => {
+                enemy.loadImage(path);
+            }, index * frameDelay);
+        });
+        let lastFrameTime = (enemy.IMAGES_DEAD.length - 1) * frameDelay;
+        let holdAfterLastFrame = 600;
+        let totalDuration = lastFrameTime + holdAfterLastFrame;
         setTimeout(() => {
             this.removeEnemyFromLevel(enemy);
-        }, 900);
+        }, totalDuration);
     }
 
     showDeathImage(enemy) {
@@ -199,7 +218,7 @@ export class World {
         if (!endboss) {
             return false;
         }
-        return Math.abs(this.character.x - endboss.x) < 500;
+        return endboss.hasEngaged;
     }
 
     checkEndbossApproach() {

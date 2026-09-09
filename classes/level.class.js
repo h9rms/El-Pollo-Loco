@@ -4,7 +4,7 @@ export class Level {
     backgroundObject;
     coins;
     bottles;
-    level_end_x = 2700;
+    level_end_x = 2550;
 
     constructor(enemies, clouds, backgroundObject, coins = [], bottles = []){
         this.enemies = enemies;
