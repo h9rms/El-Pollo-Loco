@@ -43,6 +43,10 @@ export class World {
 
     setWorld() {
         this.character.world = this;
+        let endboss = this.level.enemies.find((enemy) => enemy instanceof Endboss);
+        if (endboss) {
+            endboss.world = this;
+        }
     }
 
     run() {
@@ -101,7 +105,7 @@ export class World {
         this.showDeathImage(enemy);
         setTimeout(() => {
             this.removeEnemyFromLevel(enemy);
-        }, 500);
+        }, 900);
     }
 
     showDeathImage(enemy) {
