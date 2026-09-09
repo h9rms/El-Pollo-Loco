@@ -65,6 +65,7 @@ export class ImageHub {
             "assets/img/assets/images/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
             "assets/img/assets/images/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
         ],
+        dead: "assets/img/assets/images/3_enemies_chicken/chicken_normal/2_dead/dead.png",
     };
 
     static smallChicken = {

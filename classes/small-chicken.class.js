@@ -7,6 +7,7 @@ export class SmallChicken extends MovableObject {
     height = 50;
     width = 50;
     drawFrameEnabled = true;
+    dead = false;
     IMAGES_WALKING = ImageHub.smallChicken.walking;
     constructor() {
         super().loadImage(ImageHub.smallChicken.walking[0]);
@@ -18,11 +19,15 @@ export class SmallChicken extends MovableObject {
 
     animate() {
         IntervalHub.startInterval(() => {
-            this.moveLeft();
+            if (!this.dead) {
+                this.moveLeft();
+            }
         }, 1000 / 60);
         this.moveLeft();
         IntervalHub.startInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
+            if (!this.dead) {
+                this.playAnimation(this.IMAGES_WALKING);
+            }
         }, 200);
     }
 }

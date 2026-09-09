@@ -4,12 +4,13 @@ import { IntervalHub } from "../hubs/interval-hub.class.js";
 export class ThrowableObject extends MovableObject {
     alwaysAboveGround = true;
 
-    constructor(x, y) {
+    constructor(x, y, otherDirection = false) {
         super().loadImage("assets/img/assets/images/6_salsa_bottle/salsa_bottle.png");
         this.x = x;
         this.y = y;
         this.height = 60;
         this.width = 50;
+        this.otherDirection = otherDirection;
         this.throw();
     }
 
@@ -17,7 +18,11 @@ export class ThrowableObject extends MovableObject {
         this.speedY = 30;
         this.applyGravity();
         IntervalHub.startInterval(() => {
-            this.x += 10;
+            if (this.otherDirection) {
+                this.x -= 10;
+            } else {
+                this.x += 10;
+            }
         }, 25);
     }
 }

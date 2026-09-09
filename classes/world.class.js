@@ -58,7 +58,9 @@ export class World {
 
     checkThrowObjects(){
         if(this.keyboard.F && !this.throwLocked && this.bottleCount > 0){
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+            let facingLeft = this.character.otherDirection;
+            let spawnX = facingLeft ? this.character.x - 50 : this.character.x + 100;
+            let bottle = new ThrowableObject(spawnX, this.character.y + 100, facingLeft);
             this.throwableObjects.push(bottle);
             this.throwLocked = true;
             this.bottleCount--;
@@ -71,6 +73,9 @@ export class World {
 
     checkCollision() {
         [...this.level.enemies].forEach((enemy) => {
+            if (enemy.dead) {
+                return;
+            }
             if (this.character.isColliding(enemy)) {
                 if (this.isJumpingOnTop(enemy) && !(enemy instanceof Endboss)) {
                     this.killEnemy(enemy);
@@ -88,7 +93,26 @@ export class World {
     }
 
     killEnemy(enemy) {
+        if (enemy.dead) {
+            return;
+        }
+        enemy.dead = true;
         this.playEnemyDeathSound(enemy);
+        this.showDeathImage(enemy);
+        setTimeout(() => {
+            this.removeEnemyFromLevel(enemy);
+        }, 500);
+    }
+
+    showDeathImage(enemy) {
+        if (enemy instanceof SmallChicken) {
+            enemy.loadImage(ImageHub.smallChicken.dead);
+        } else if (enemy instanceof Chicken) {
+            enemy.loadImage(ImageHub.chicken.dead);
+        }
+    }
+
+    removeEnemyFromLevel(enemy) {
         let index = this.level.enemies.indexOf(enemy);
         if (index > -1) {
             this.level.enemies.splice(index, 1);
@@ -106,6 +130,9 @@ export class World {
     checkBottleCollisions() {
         [...this.throwableObjects].forEach((bottle) => {
             [...this.level.enemies].forEach((enemy) => {
+                if (enemy.dead) {
+                    return;
+                }
                 if (bottle.isColliding(enemy)) {
                     AudioHub.playOne(AudioHub.BOTTLE_BREAK);
                     this.damageEnemy(enemy);
