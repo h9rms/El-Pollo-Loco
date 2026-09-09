@@ -1,11 +1,31 @@
-body{
+body {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-canvas{
+canvas {
     background-color: black;
+}
+
+#game-wrapper {
+    position: relative;
+    width: 720px;
+    height: 480px;
+}
+
+.mute-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
 }
 
 #start-screen {

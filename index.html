@@ -6,11 +6,25 @@
         <title>El Pollo Loco</title>
     </head>
     <body>
-        <div id="start-screen">
-            <h1>El Pollo Loco</h1>
-            <div class="start-buttons">
-                <button id="startBtn">Spiel starten</button>
-                <button id="controlsBtn">Steuerung anzeigen</button>
+        <div id="game-wrapper">
+            <button id="muteBtn" class="mute-btn">&#128266;</button>
+
+            <div id="start-screen">
+                <h1>El Pollo Loco</h1>
+                <div class="start-buttons">
+                    <button id="startBtn">Spiel starten</button>
+                    <button id="controlsBtn">Steuerung anzeigen</button>
+                </div>
+            </div>
+
+            <canvas id="canvas" width="720" height="480" style="display:none;"></canvas>
+
+            <div id="end-screen" style="display:none;">
+                <h1 id="end-screen-title"></h1>
+                <div class="start-buttons">
+                    <button id="restartBtn">Neustart</button>
+                    <button id="homeBtn">Zurück zum Start</button>
+                </div>
             </div>
         </div>
 
@@ -23,16 +37,6 @@
                 <li>F &ndash; Flasche werfen</li>
             </ul>
         </dialog>
-
-        <canvas id="canvas" width="720" height="480" style="display:none;"></canvas>
-
-        <div id="end-screen" style="display:none;">
-            <h1 id="end-screen-title"></h1>
-            <div class="start-buttons">
-                <button id="restartBtn">Neustart</button>
-                <button id="homeBtn">Zurück zum Start</button>
-            </div>
-        </div>
 
         <script type="module" src="./js/game.js"></script>
     </body>

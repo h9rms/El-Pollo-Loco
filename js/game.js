@@ -1,5 +1,6 @@
 import { World } from "../classes/world.class.js";
 import { Keyboard } from "../classes/keyboard.class.js";
+import { AudioHub } from "../hubs/audio-hub.class.js";
 
 let canvas;
 let world;
@@ -14,6 +15,7 @@ function init() {
 function startGame() {
     document.getElementById("start-screen").style.display = "none";
     canvas.style.display = "block";
+    AudioHub.playOne(AudioHub.GAME_START);
     init();
 }
 
@@ -55,12 +57,28 @@ function setupControlsDialog() {
     });
 }
 
+function setupMuteButton() {
+    AudioHub.loadMutedState();
+    let button = document.getElementById("muteBtn");
+    updateMuteButtonIcon(button);
+
+    button.addEventListener("click", () => {
+        AudioHub.setMuted(!AudioHub.muted);
+        updateMuteButtonIcon(button);
+    });
+}
+
+function updateMuteButtonIcon(button) {
+    button.innerHTML = AudioHub.muted ? "&#128263;" : "&#128266;";
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     canvas = document.getElementById("canvas");
     document.getElementById("startBtn").addEventListener("click", startGame);
     document.getElementById("restartBtn").addEventListener("click", restartGame);
     document.getElementById("homeBtn").addEventListener("click", goHome);
     setupControlsDialog();
+    setupMuteButton();
 });
 
 window.addEventListener("gameOver", (e) => {

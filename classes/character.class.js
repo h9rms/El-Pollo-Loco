@@ -1,6 +1,7 @@
 import { MovableObject } from "./movable-object.class.js";
 import { IntervalHub } from "../hubs/interval-hub.class.js";
 import { ImageHub } from "../hubs/image-hub.class.js";
+import { AudioHub } from "../hubs/audio-hub.class.js";
 
 export class Character extends MovableObject {
     height = 280;
@@ -14,6 +15,8 @@ export class Character extends MovableObject {
     IMAGES_IDLE = ImageHub.character.idle;
     IMAGES_LONG_IDLE = ImageHub.character.longIdle;
     lastActionTime = new Date().getTime();
+    wasMoving = false;
+    isSleeping = false;
 
     world;
     constructor() {
@@ -53,20 +56,45 @@ export class Character extends MovableObject {
         }, 1000 / 60);
 
         IntervalHub.startInterval(() => {
+            let moving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+
+            if (this.wasMoving && !moving) {
+                AudioHub.stopOne(AudioHub.CHARACTER_RUN);
+            }
+
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            } else if (moving) {
                 this.playAnimation(this.IMAGES_WALKING);
+                this.playRunSoundOnce();
             } else if (this.isLongIdle()) {
                 this.playAnimation(this.IMAGES_LONG_IDLE);
+                this.playSnoringSoundOnce();
             } else {
                 this.playAnimation(this.IMAGES_IDLE);
+                this.isSleeping = false;
             }
+
+            this.wasMoving = moving;
         }, 50);
+    }
+
+    playRunSoundOnce() {
+        if (!this.wasMoving) {
+            AudioHub.playOne(AudioHub.CHARACTER_RUN);
+        }
+        this.isSleeping = false;
+    }
+
+    playSnoringSoundOnce() {
+        if (!this.isSleeping) {
+            AudioHub.playOne(AudioHub.CHARACTER_SNORING);
+            this.isSleeping = true;
+        }
     }
 
     isLongIdle() {
@@ -76,5 +104,6 @@ export class Character extends MovableObject {
 
     jump() {
         this.speedY = 25;
+        AudioHub.playOne(AudioHub.CHARACTER_JUMP);
     }
 }

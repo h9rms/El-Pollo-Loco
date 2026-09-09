@@ -2,9 +2,12 @@ import { Character } from "../classes/character.class.js";
 import { StatusBar } from "../classes/status-bar.class.js";
 import { ThrowableObject } from "../classes/throwable-object.class.js";
 import { Endboss } from "../classes/endboss.class.js";
+import { Chicken } from "../classes/chicken.class.js";
+import { SmallChicken } from "../classes/small-chicken.class.js";
 import { createLevel1 } from "../levels/level1.js";
 import { IntervalHub } from "../hubs/interval-hub.class.js";
 import { ImageHub } from "../hubs/image-hub.class.js";
+import { AudioHub } from "../hubs/audio-hub.class.js";
 
 export class World {
     character = new Character();
@@ -22,6 +25,7 @@ export class World {
     throwableObjects = [];
     throwLocked = false;
     gameOver = false;
+    endbossApproachPlayed = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -48,6 +52,7 @@ export class World {
             this.checkBottleCollisions();
             this.checkGameOver();
             this.checkCollectables();
+            this.checkEndbossApproach();
         }, 200);
     }
 
@@ -72,6 +77,7 @@ export class World {
                 } else if (!this.character.isHurt()) {
                     this.character.hit();
                     this.statusBar.setPercentage(this.character.energy);
+                    AudioHub.playOne(AudioHub.CHARACTER_DAMAGE);
                 }
             }
         });
@@ -82,9 +88,18 @@ export class World {
     }
 
     killEnemy(enemy) {
+        this.playEnemyDeathSound(enemy);
         let index = this.level.enemies.indexOf(enemy);
         if (index > -1) {
             this.level.enemies.splice(index, 1);
+        }
+    }
+
+    playEnemyDeathSound(enemy) {
+        if (enemy instanceof SmallChicken) {
+            AudioHub.playOne(AudioHub.CHICKEN_DEAD_2);
+        } else if (enemy instanceof Chicken) {
+            AudioHub.playOne(AudioHub.CHICKEN_DEAD);
         }
     }
 
@@ -92,6 +107,7 @@ export class World {
         [...this.throwableObjects].forEach((bottle) => {
             [...this.level.enemies].forEach((enemy) => {
                 if (bottle.isColliding(enemy)) {
+                    AudioHub.playOne(AudioHub.BOTTLE_BREAK);
                     this.damageEnemy(enemy);
                     this.removeBottle(bottle);
                 }
@@ -124,6 +140,7 @@ export class World {
         }
         if (this.character.isDead()) {
             this.endGame(false);
+            AudioHub.playOne(AudioHub.CHARACTER_DEAD);
         } else if (!this.level.enemies.some((enemy) => enemy instanceof Endboss)) {
             this.endGame(true);
         }
@@ -131,6 +148,7 @@ export class World {
 
     endGame(won) {
         this.gameOver = true;
+        AudioHub.stopAll();
         IntervalHub.stopAllIntervals();
         window.dispatchEvent(new CustomEvent("gameOver", { detail: { won: won } }));
     }
@@ -141,6 +159,13 @@ export class World {
             return false;
         }
         return Math.abs(this.character.x - endboss.x) < 500;
+    }
+
+    checkEndbossApproach() {
+        if (this.isEndbossNear() && !this.endbossApproachPlayed) {
+            AudioHub.playOne(AudioHub.ENDBOSS_APPROACH);
+            this.endbossApproachPlayed = true;
+        }
     }
 
     checkCollectables() {
@@ -163,6 +188,7 @@ export class World {
         }
         this.coinCount = Math.min(this.coinCount + 1, 5);
         this.coinStatusBar.setPercentage(this.coinCount * 20);
+        AudioHub.playOne(AudioHub.COIN_COLLECT);
     }
 
     checkBottlePickupCollection() {
@@ -180,6 +206,7 @@ export class World {
         }
         this.bottleCount = Math.min(this.bottleCount + 1, 5);
         this.bottleStatusBar.setPercentage(this.bottleCount * 20);
+        AudioHub.playOne(AudioHub.BOTTLE_COLLECT);
     }
 
     draw() {
