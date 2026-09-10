@@ -2,8 +2,14 @@ class MyAudio {
     file;
     isLoaded;
 
-    constructor(_file) {
+    constructor(_file, options = {}) {
         this.file = new Audio(_file);
+        if (options.volume !== undefined) {
+            this.file.volume = options.volume;
+        }
+        if (options.loop) {
+            this.file.loop = true;
+        }
     }
 }
 
@@ -23,6 +29,8 @@ export class AudioHub {
     static ENDBOSS_APPROACH = new MyAudio("assets/audio/sounds/endboss/endbossApproach.wav");
 
     static GAME_START = new MyAudio("assets/audio/sounds/game/gameStart.mp3");
+    static BACKGROUND_MUSIC = new MyAudio("assets/audio/sounds/game/background-music.mp3", { volume: 0.3, loop: true });
+    static WINNER = new MyAudio("assets/audio/sounds/game/winner.mp3");
 
     static BOTTLE_BREAK = new MyAudio("assets/audio/sounds/throwable/bottleBreak.mp3");
 
@@ -39,6 +47,8 @@ export class AudioHub {
         AudioHub.COIN_COLLECT,
         AudioHub.ENDBOSS_APPROACH,
         AudioHub.GAME_START,
+        AudioHub.BACKGROUND_MUSIC,
+        AudioHub.WINNER,
         AudioHub.BOTTLE_BREAK,
     ];
 
@@ -46,6 +56,15 @@ export class AudioHub {
 
     // Spielt eine einzelne Audiodatei ab (sofern nicht stummgeschaltet)
     static playOne(sound) {
+        if (AudioHub.muted) {
+            return;
+        }
+        sound.file.currentTime = 0;
+        sound.file.play().catch(() => {});
+    }
+
+    // Startet ein Musikstueck (in Schleife) von vorne, sofern nicht stummgeschaltet
+    static playMusic(sound) {
         if (AudioHub.muted) {
             return;
         }

@@ -36,6 +36,7 @@ export class World {
         this.bottleStatusBar.y = 100;
         this.coinStatusBar.setPercentage(0);
         this.bottleStatusBar.setPercentage(0);
+        AudioHub.playMusic(AudioHub.BACKGROUND_MUSIC);
         this.draw();
         this.setWorld();
         this.run();
@@ -204,6 +205,7 @@ export class World {
             AudioHub.playOne(AudioHub.CHARACTER_DEAD);
         } else if (!this.level.enemies.some((enemy) => enemy instanceof Endboss)) {
             this.endGame(true);
+            AudioHub.playOne(AudioHub.WINNER);
         }
     }
 

@@ -30,12 +30,14 @@ function showEndScreen(won) {
 function restartGame() {
     document.getElementById("end-screen").style.display = "none";
     canvas.style.display = "block";
+    AudioHub.stopOne(AudioHub.WINNER);
     init();
 }
 
 function goHome() {
     document.getElementById("end-screen").style.display = "none";
     document.getElementById("start-screen").style.display = "flex";
+    AudioHub.stopOne(AudioHub.WINNER);
 }
 
 function setupControlsDialog() {
