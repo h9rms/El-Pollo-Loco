@@ -9,7 +9,6 @@ let keyboard = new Keyboard();
 function init() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
-    console.log("my character is,", world.character);
 }
 
 function startGame() {
@@ -66,6 +65,7 @@ function setupMuteButton() {
     button.addEventListener("click", () => {
         AudioHub.setMuted(!AudioHub.muted);
         updateMuteButtonIcon(button);
+        button.blur();
     });
 }
 
@@ -133,6 +133,7 @@ window.addEventListener("keydown", (e) => {
         keyboard.DOWN = true;
     }
     if (e.keyCode == 32) {
+        e.preventDefault();
         keyboard.SPACE = true;
     }
     if (e.keyCode == 70) {

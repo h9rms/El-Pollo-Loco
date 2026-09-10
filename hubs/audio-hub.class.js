@@ -53,6 +53,7 @@ export class AudioHub {
     ];
 
     static muted = false;
+    static pausedByMute = [];
 
     // Spielt eine einzelne Audiodatei ab (sofern nicht stummgeschaltet)
     static playOne(sound) {
@@ -88,7 +89,13 @@ export class AudioHub {
     static setMuted(muted) {
         AudioHub.muted = muted;
         if (muted) {
+            AudioHub.pausedByMute = AudioHub.allSounds.filter((sound) => !sound.file.paused);
             AudioHub.stopAll();
+        } else {
+            AudioHub.pausedByMute.forEach((sound) => {
+                sound.file.play().catch(() => {});
+            });
+            AudioHub.pausedByMute = [];
         }
         localStorage.setItem("muted", muted);
     }
