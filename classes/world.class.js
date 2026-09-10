@@ -67,7 +67,7 @@ export class World {
             this.checkGameOver();
             this.checkCollectables();
             this.checkEndbossApproach();
-        }, 200);
+        }, 1000 / 60);
     }
 
     checkThrowObjects(){
