@@ -93,6 +93,7 @@ export class World {
             if (this.character.isColliding(enemy)) {
                 if (this.isJumpingOnTop(enemy) && !(enemy instanceof Endboss)) {
                     this.killEnemy(enemy);
+                    this.character.jump();
                 } else if (!this.character.isHurt()) {
                     this.character.hit();
                     this.statusBar.setPercentage(this.character.energy);
@@ -103,7 +104,7 @@ export class World {
     }
 
     isJumpingOnTop(enemy) {
-        return this.character.y + this.character.height < enemy.y + enemy.height / 2;
+        return this.character.speedY < 0 && this.character.y + this.character.height < enemy.y + enemy.height / 2;
     }
 
     killEnemy(enemy) {

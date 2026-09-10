@@ -16,6 +16,7 @@ export class Character extends MovableObject {
     IMAGES_LONG_IDLE = ImageHub.character.longIdle;
     lastActionTime = new Date().getTime();
     wasMoving = false;
+    jumpFrameCounter = 0;
     isSleeping = false;
 
     world;
@@ -65,7 +66,10 @@ export class Character extends MovableObject {
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
+                this.jumpFrameCounter++;
+                if (this.jumpFrameCounter % 3 === 0) {
+                    this.playAnimation(this.IMAGES_JUMPING);
+                }
             } else if (moving) {
                 this.playAnimation(this.IMAGES_WALKING);
                 this.playRunSoundOnce();
