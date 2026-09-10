@@ -5,7 +5,7 @@ import { AudioHub } from "../hubs/audio-hub.class.js";
 
 export class Character extends MovableObject {
     height = 280;
-    y = 80;
+    y = 150;
     speed = 10;
     drawFrameEnabled = true;
     IMAGES_WALKING = ImageHub.character.walking;

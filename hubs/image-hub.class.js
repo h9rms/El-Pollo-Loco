@@ -146,4 +146,11 @@ export class ImageHub {
     static coin = "assets/img/assets/images/8_coin/coin_2.png";
 
     static bottlePickup = "assets/img/assets/images/6_salsa_bottle/salsa_bottle.png";
+
+    static bottleRotation = [
+        "assets/img/assets/images/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
+        "assets/img/assets/images/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",
+        "assets/img/assets/images/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",
+        "assets/img/assets/images/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png",
+    ];
 }
