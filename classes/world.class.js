@@ -105,7 +105,7 @@ export class World {
     }
 
     isJumpingOnTop(enemy) {
-        return this.character.speedY < 0 && this.character.y + this.character.height < enemy.y + enemy.height / 2;
+        return this.character.speedY < 0 && this.character.y + this.character.height < enemy.y + enemy.height * 0.7;
     }
 
     killEnemy(enemy) {
