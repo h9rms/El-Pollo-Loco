@@ -108,4 +108,13 @@ export class Character extends MovableObject {
         this.speedY = 25;
         AudioHub.playOne(AudioHub.CHARACTER_JUMP);
     }
+
+    hit() {
+        this.energy -= 20;
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
 }

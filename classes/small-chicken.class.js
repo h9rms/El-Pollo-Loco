@@ -12,7 +12,7 @@ export class SmallChicken extends MovableObject {
     constructor() {
         super().loadImage(ImageHub.smallChicken.walking[0]);
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 300 + Math.random() * 600;
+        this.x = 300 + Math.random() * 2000;
         this.speed = 0.3 + Math.random() * 0.7;
         this.animate();
     }
