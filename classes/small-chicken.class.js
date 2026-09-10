@@ -6,7 +6,7 @@ export class SmallChicken extends MovableObject {
     y = 380;
     height = 50;
     width = 50;
-    drawFrameEnabled = true;
+    drawFrameEnabled = false;
     dead = false;
     IMAGES_WALKING = ImageHub.smallChicken.walking;
     constructor() {

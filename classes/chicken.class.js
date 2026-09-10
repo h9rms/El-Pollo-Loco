@@ -6,7 +6,7 @@ export class Chicken extends MovableObject {
     y = 350;
     height = 80;
     width = 80;
-    drawFrameEnabled = true;
+    drawFrameEnabled = false;
     dead = false;
     IMAGES_WALKING = ImageHub.chicken.walking;
     constructor() {

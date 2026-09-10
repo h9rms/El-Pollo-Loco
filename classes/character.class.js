@@ -7,7 +7,7 @@ export class Character extends MovableObject {
     height = 280;
     y = 150;
     speed = 10;
-    drawFrameEnabled = true;
+    drawFrameEnabled = false;
     IMAGES_WALKING = ImageHub.character.walking;
     IMAGES_JUMPING = ImageHub.character.jumping;
     IMAGES_DEAD = ImageHub.character.dead;
@@ -17,6 +17,7 @@ export class Character extends MovableObject {
     lastActionTime = new Date().getTime();
     wasMoving = false;
     jumpFrameCounter = 0;
+    idleFrameCounter = 0;
     isSleeping = false;
 
     world;
@@ -77,7 +78,10 @@ export class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_LONG_IDLE);
                 this.playSnoringSoundOnce();
             } else {
-                this.playAnimation(this.IMAGES_IDLE);
+                this.idleFrameCounter++;
+                if (this.idleFrameCounter % 3 === 0) {
+                    this.playAnimation(this.IMAGES_IDLE);
+                }
                 this.isSleeping = false;
             }
 
