@@ -45,15 +45,18 @@ canvas{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     width: 100%;
     height: 100%;
     /* Hintergrundbild Startscreen */
     background-image: url("assets/img/assets/images/9_intro_outro_screens/start/startscreen_1.png");
-    background-size: cover;
+    background-size: contain;
     background-position: center;
+    background-repeat: no-repeat;
     color: white;
     text-align: center;
+    padding-bottom: 52px;
+    box-sizing: border-box;
 }
 
 .start-buttons {
@@ -63,8 +66,8 @@ canvas{
 }
 
 .start-buttons button {
-    padding: 12px 28px;
-    font-size: 1.1rem;
+    padding: 8px 18px;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     border: none;
@@ -86,13 +89,24 @@ canvas{
 
 #controls-dialog {
     border: none;
-    border-radius: 8px;
+    border-radius: 16px;
     padding: 24px 32px;
     max-width: 320px;
+    background: #fff6e0;
+    border: 4px solid #f7931e;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 #controls-dialog::backdrop {
     background: rgba(0, 0, 0, 0.5);
+}
+
+#controls-dialog h2 {
+    font-family: "Bangers", cursive;
+    color: #f7931e;
+    text-align: center;
+    margin-top: 0;
+    letter-spacing: 2px;
 }
 
 .dialog-close {
@@ -103,6 +117,7 @@ canvas{
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
+    color: #6b2d00;
 }
 
 #controls-dialog ul {
@@ -111,7 +126,12 @@ canvas{
 }
 
 #controls-dialog li {
+    background: #ffe3ad;
+    border-radius: 8px;
+    padding: 8px 12px;
     margin: 8px 0;
+    font-weight: 600;
+    color: #6b2d00;
 }
 
 #end-screen {
@@ -123,11 +143,10 @@ canvas{
     height: 100%;
     color: white;
     text-align: center;
-    background-color: black;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    padding-bottom: 40px;
+    padding-bottom: 16px;
     box-sizing: border-box;
 }
 
