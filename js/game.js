@@ -22,7 +22,6 @@ function startGame() {
 function showEndScreen(won) {
     canvas.style.display = "none";
     let endScreen = document.getElementById("end-screen");
-    document.getElementById("end-screen-title").textContent = won ? "Gewonnen!" : "Game Over";
     endScreen.classList.toggle("won", won);
     endScreen.classList.toggle("lost", !won);
     endScreen.style.display = "flex";

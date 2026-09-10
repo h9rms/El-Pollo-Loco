@@ -91,6 +91,7 @@ export class World {
                 return;
             }
             if (this.character.isColliding(enemy)) {
+                console.log("Kollision! speedY:", this.character.speedY, "isJumpingOnTop:", this.isJumpingOnTop(enemy), "isHurt:", this.character.isHurt());
                 if (this.isJumpingOnTop(enemy) && !(enemy instanceof Endboss)) {
                     this.killEnemy(enemy);
                     this.character.jump();

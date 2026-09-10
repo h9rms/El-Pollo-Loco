@@ -63,9 +63,25 @@ canvas{
 }
 
 .start-buttons button {
-    padding: 10px 20px;
-    font-size: 1rem;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(to bottom, #ffcc4d, #f7931e);
+    color: #6b2d00;
+    box-shadow: 0 4px 0 #c1650a, 0 6px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s ease;
+}
+
+.start-buttons button:hover {
+    transform: translateY(-2px);
+}
+
+.start-buttons button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #c1650a, 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 #controls-dialog {
@@ -102,13 +118,17 @@ canvas{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     width: 100%;
     height: 100%;
     color: white;
     text-align: center;
-    background-size: cover;
+    background-color: black;
+    background-size: contain;
     background-position: center;
+    background-repeat: no-repeat;
+    padding-bottom: 40px;
+    box-sizing: border-box;
 }
 
 /* TODO: Pfade pruefen/anpassen, sobald die genauen Dateinamen aus
