@@ -35,58 +35,79 @@ export class Character extends MovableObject {
 
     animate() {
         IntervalHub.startInterval(() => {
-            if (
-                this.world.keyboard.RIGHT &&
-                this.x < this.world.level.level_end_x
-            ) {
-                this.moveRight();
-                this.otherDirection = false;
-                this.lastActionTime = new Date().getTime();
-            }
-            if (this.world.keyboard.LEFT && this.x > 0) {
-                this.moveLeft();
-                this.otherDirection = true;
-                this.lastActionTime = new Date().getTime();
-            }
-
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                this.jump();
-                this.lastActionTime = new Date().getTime();
-            }
+            this.handleMovementInput();
         }, 1000 / 60);
 
         IntervalHub.startInterval(() => {
-            let moving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
-
-            if (this.wasMoving && !moving) {
-                AudioHub.stopOne(AudioHub.CHARACTER_RUN);
-            }
-
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAboveGround()) {
-                this.jumpFrameCounter++;
-                if (this.jumpFrameCounter % 3 === 0) {
-                    this.playAnimation(this.IMAGES_JUMPING);
-                }
-            } else if (moving) {
-                this.playAnimation(this.IMAGES_WALKING);
-                this.playRunSoundOnce();
-            } else if (this.isLongIdle()) {
-                this.playAnimation(this.IMAGES_LONG_IDLE);
-                this.playSnoringSoundOnce();
-            } else {
-                this.idleFrameCounter++;
-                if (this.idleFrameCounter % 3 === 0) {
-                    this.playAnimation(this.IMAGES_IDLE);
-                }
-                this.isSleeping = false;
-            }
-
-            this.wasMoving = moving;
+            this.updateAnimationState();
         }, 50);
+    }
+
+    handleMovementInput() {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            this.moveRight();
+            this.otherDirection = false;
+            this.lastActionTime = new Date().getTime();
+        }
+        if (this.world.keyboard.LEFT && this.x > 0) {
+            this.moveLeft();
+            this.otherDirection = true;
+            this.lastActionTime = new Date().getTime();
+        }
+        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            this.jump();
+            this.lastActionTime = new Date().getTime();
+        }
+    }
+
+    updateAnimationState() {
+        let moving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+        if (this.wasMoving && !moving) {
+            AudioHub.stopOne(AudioHub.CHARACTER_RUN);
+        }
+        this.playCurrentAnimation(moving);
+        this.wasMoving = moving;
+    }
+
+    playCurrentAnimation(moving) {
+        if (this.isDead()) {
+            this.playAnimation(this.IMAGES_DEAD);
+        } else if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT);
+        } else if (this.isAboveGround()) {
+            this.playJumpingFrame();
+        } else if (moving) {
+            this.playWalkingFrame();
+        } else if (this.isLongIdle()) {
+            this.playLongIdleFrame();
+        } else {
+            this.playIdleFrame();
+        }
+    }
+
+    playWalkingFrame() {
+        this.playAnimation(this.IMAGES_WALKING);
+        this.playRunSoundOnce();
+    }
+
+    playLongIdleFrame() {
+        this.playAnimation(this.IMAGES_LONG_IDLE);
+        this.playSnoringSoundOnce();
+    }
+
+    playJumpingFrame() {
+        this.jumpFrameCounter++;
+        if (this.jumpFrameCounter % 3 === 0) {
+            this.playAnimation(this.IMAGES_JUMPING);
+        }
+    }
+
+    playIdleFrame() {
+        this.idleFrameCounter++;
+        if (this.idleFrameCounter % 3 === 0) {
+            this.playAnimation(this.IMAGES_IDLE);
+        }
+        this.isSleeping = false;
     }
 
     playRunSoundOnce() {

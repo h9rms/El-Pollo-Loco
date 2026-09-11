@@ -89,20 +89,21 @@ export class World {
 
     checkCollision() {
         [...this.level.enemies].forEach((enemy) => {
-            if (enemy.dead) {
-                return;
-            }
-            if (this.character.isColliding(enemy)) {
-                if (this.isJumpingOnTop(enemy) && !(enemy instanceof Endboss)) {
-                    this.killEnemy(enemy);
-                    this.character.jump();
-                } else if (!this.character.isHurt()) {
-                    this.character.hit();
-                    this.statusBar.setPercentage(this.character.energy);
-                    AudioHub.playOne(AudioHub.CHARACTER_DAMAGE);
-                }
+            if (!enemy.dead && this.character.isColliding(enemy)) {
+                this.handleEnemyCollision(enemy);
             }
         });
+    }
+
+    handleEnemyCollision(enemy) {
+        if (this.isJumpingOnTop(enemy) && !(enemy instanceof Endboss)) {
+            this.killEnemy(enemy);
+            this.character.jump();
+        } else if (!this.character.isHurt()) {
+            this.character.hit();
+            this.statusBar.setPercentage(this.character.energy);
+            AudioHub.playOne(AudioHub.CHARACTER_DAMAGE);
+        }
     }
 
     isJumpingOnTop(enemy) {
@@ -285,19 +286,29 @@ export class World {
     draw() {
         this.updateCamera();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawBackground();
+        this.drawStatusBars();
+        this.drawWorldObjects();
+        this.scheduleNextFrame();
+    }
 
+    drawBackground() {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObject);
-
         this.ctx.translate(-this.camera_x, 0);
+    }
+
+    drawStatusBars() {
         this.addToMap(this.statusBar);
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar);
         if (this.isEndbossNear()) {
             this.addToMap(this.endbossStatusBar);
         }
-        this.ctx.translate(this.camera_x, 0);
+    }
 
+    drawWorldObjects() {
+        this.ctx.translate(this.camera_x, 0);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
@@ -305,7 +316,9 @@ export class World {
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
+    }
 
+    scheduleNextFrame() {
         let self = this;
         requestAnimationFrame(function () {
             self.draw();

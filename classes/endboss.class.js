@@ -39,18 +39,22 @@ export class Endboss extends MovableObject {
         }, 1000 / 60);
 
         IntervalHub.startInterval(() => {
-            if (this.dead) {
-                return;
-            } else if (this.isHurtState) {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAttacking()) {
-                this.playAnimation(this.IMAGES_ATTACK);
-            } else if (this.isPlayerNear()) {
-                this.playAnimation(this.IMAGES_ALERT);
-            } else {
-                this.playAnimation(this.IMAGES_WALKING);
-            }
+            this.updateAnimationState();
         }, 300);
+    }
+
+    updateAnimationState() {
+        if (this.dead) {
+            return;
+        } else if (this.isHurtState) {
+            this.playAnimation(this.IMAGES_HURT);
+        } else if (this.isAttacking()) {
+            this.playAnimation(this.IMAGES_ATTACK);
+        } else if (this.isPlayerNear()) {
+            this.playAnimation(this.IMAGES_ALERT);
+        } else {
+            this.playAnimation(this.IMAGES_WALKING);
+        }
     }
 
     chasePlayer() {
