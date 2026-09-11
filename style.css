@@ -22,9 +22,9 @@ canvas{
 
 #game-wrapper {
     position: relative;
-    width: min(720px, 100vw, 150vh);
-    width: min(720px, 100vw, 150dvh);
-    aspect-ratio: 3 / 2;
+    width: 720px;
+    height: 480px;
+    max-width: 100%;
 }
 
 .mute-btn {
@@ -216,5 +216,15 @@ canvas{
         left: 12px;
         right: 12px;
         z-index: 10;
+        pointer-events: none;
+    }
+
+    #mobile-controls .control-btn {
+        pointer-events: auto;
+    }
+
+    #page-title {
+        font-size: 2rem;
+        letter-spacing: 4px;
     }
 }

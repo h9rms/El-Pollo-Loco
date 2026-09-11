@@ -98,7 +98,21 @@ function positionPageTitle() {
     let title = document.getElementById("page-title");
     let wrapperTop = wrapper.getBoundingClientRect().top;
     let titleHeight = title.offsetHeight;
-    title.style.top = (wrapperTop / 2 - titleHeight / 2) + "px";
+    let top = Math.max(0, wrapperTop / 2 - titleHeight / 2);
+    title.style.top = top + "px";
+}
+
+function resizeGameWrapper() {
+    let wrapper = document.getElementById("game-wrapper");
+    let title = document.getElementById("page-title");
+    let titleHeight = title.offsetHeight;
+    let availableHeight = window.innerHeight - titleHeight;
+    let maxWidthFromHeight = availableHeight * 1.5;
+    let width = Math.min(720, window.innerWidth, maxWidthFromHeight);
+    let height = width * (2 / 3);
+    wrapper.style.width = width + "px";
+    wrapper.style.height = height + "px";
+    positionPageTitle();
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -109,9 +123,12 @@ window.addEventListener("DOMContentLoaded", () => {
     setupControlsDialog();
     setupMuteButton();
     setupMobileControls();
-    positionPageTitle();
+    resizeGameWrapper();
     document.fonts.ready.then(positionPageTitle);
 });
+
+window.addEventListener("resize", resizeGameWrapper);
+window.addEventListener("orientationchange", resizeGameWrapper);
 
 window.addEventListener("resize", positionPageTitle);
 
