@@ -65,6 +65,7 @@ export class World {
             this.checkCollision();
             this.checkThrowObjects();
             this.checkBottleCollisions();
+            this.checkBottleGroundImpact();
             this.checkGameOver();
             this.checkCollectables();
             this.checkEndbossApproach();
@@ -194,6 +195,15 @@ export class World {
         if (index > -1) {
             this.throwableObjects.splice(index, 1);
         }
+    }
+
+    checkBottleGroundImpact() {
+        [...this.throwableObjects].forEach((bottle) => {
+            if (bottle.y + bottle.height >= 430) {
+                AudioHub.playOne(AudioHub.BOTTLE_BREAK);
+                this.removeBottle(bottle);
+            }
+        });
     }
 
     checkGameOver() {
