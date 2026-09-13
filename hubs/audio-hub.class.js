@@ -1,7 +1,18 @@
+/**
+ * Wraps a single HTML audio element together with optional volume and loop settings.
+ * @class
+ */
 class MyAudio {
     file;
     isLoaded;
 
+    /**
+     * Creates a new MyAudio instance.
+     * @param {string} _file - The path to the audio file.
+     * @param {Object} [options] - Optional playback settings.
+     * @param {number} [options.volume] - The playback volume, between 0 and 1.
+     * @param {boolean} [options.loop] - True if the audio should loop automatically.
+     */
     constructor(_file, options = {}) {
         this.file = new Audio(_file);
         if (options.volume !== undefined) {
@@ -13,6 +24,11 @@ class MyAudio {
     }
 }
 
+/**
+ * Central place for every sound used in the game, plus the logic to play,
+ * stop and mute them.
+ * @class
+ */
 export class AudioHub {
     static CHARACTER_DAMAGE = new MyAudio("assets/audio/sounds/character/characterDamage.mp3");
     static CHARACTER_DEAD = new MyAudio("assets/audio/sounds/character/characterDead.wav");
@@ -34,7 +50,7 @@ export class AudioHub {
 
     static BOTTLE_BREAK = new MyAudio("assets/audio/sounds/throwable/bottleBreak.mp3");
 
-    // Array, das alle definierten Audio-Dateien enthaelt
+    /** @type {MyAudio[]} Every sound defined above, used for muting and stopping all at once. */
     static allSounds = [
         AudioHub.CHARACTER_DAMAGE,
         AudioHub.CHARACTER_DEAD,
@@ -55,7 +71,10 @@ export class AudioHub {
     static muted = false;
     static pausedByMute = [];
 
-    // Spielt eine einzelne Audiodatei ab (sofern nicht stummgeschaltet)
+    /**
+     * Plays a single sound from the start, unless the game is muted.
+     * @param {MyAudio} sound - The sound to play.
+     */
     static playOne(sound) {
         if (AudioHub.muted) {
             return;
@@ -64,7 +83,10 @@ export class AudioHub {
         sound.file.play().catch(() => {});
     }
 
-    // Startet ein Musikstueck (in Schleife) von vorne, sofern nicht stummgeschaltet
+    /**
+     * Starts a looping music track from the beginning, unless the game is muted.
+     * @param {MyAudio} sound - The music track to play.
+     */
     static playMusic(sound) {
         if (AudioHub.muted) {
             return;
@@ -73,19 +95,28 @@ export class AudioHub {
         sound.file.play().catch(() => {});
     }
 
-    // Stoppt das Abspielen aller Audiodateien
+    /**
+     * Pauses every sound in the game.
+     */
     static stopAll() {
         AudioHub.allSounds.forEach((sound) => {
             sound.file.pause();
         });
     }
 
-    // Stoppt das Abspielen einer einzelnen Audiodatei
+    /**
+     * Pauses a single sound.
+     * @param {MyAudio} sound - The sound to pause.
+     */
     static stopOne(sound) {
         sound.file.pause();
     }
 
-    // Setzt den Mute-Status, speichert ihn im LocalStorage und stoppt laufende Sounds
+    /**
+     * Mutes or unmutes the game, remembering which sounds were actively
+     * playing so they can be resumed later, and saves the choice to local storage.
+     * @param {boolean} muted - True to mute the game, false to unmute it.
+     */
     static setMuted(muted) {
         AudioHub.muted = muted;
         if (muted) {
@@ -100,7 +131,9 @@ export class AudioHub {
         localStorage.setItem("muted", muted);
     }
 
-    // Laedt den gespeicherten Mute-Status beim Spielstart
+    /**
+     * Loads the previously saved mute state from local storage.
+     */
     static loadMutedState() {
         AudioHub.muted = localStorage.getItem("muted") === "true";
     }

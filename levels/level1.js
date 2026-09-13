@@ -7,6 +7,11 @@ import { BackgroundObject } from "../classes/background-object.class.js";
 import { Coin } from "../classes/coin.class.js";
 import { BottlePickup } from "../classes/bottle-pickup.class.js";
 
+/**
+ * Creates a fresh instance of level 1, including all enemies, clouds,
+ * background layers, coins and bottles. Called every time a new game starts.
+ * @returns {Level} A newly created Level object.
+ */
 export function createLevel1() {
     return new Level(
     [

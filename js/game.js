@@ -6,11 +6,18 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
+/**
+ * Creates the canvas reference and starts a new World.
+ */
 function init() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
 }
 
+/**
+ * Hides the start screen, shows the canvas, plays the start sound
+ * and initializes a new game.
+ */
 function startGame() {
     document.getElementById("start-screen").style.display = "none";
     canvas.style.display = "block";
@@ -18,6 +25,10 @@ function startGame() {
     init();
 }
 
+/**
+ * Hides the canvas and shows the end screen with the matching win/lose styling.
+ * @param {boolean} won - True if the player won, false if the player lost.
+ */
 function showEndScreen(won) {
     canvas.style.display = "none";
     let endScreen = document.getElementById("end-screen");
@@ -26,6 +37,10 @@ function showEndScreen(won) {
     endScreen.style.display = "flex";
 }
 
+/**
+ * Hides the end screen, shows the canvas, stops the winner sound
+ * and starts a fresh game.
+ */
 function restartGame() {
     document.getElementById("end-screen").style.display = "none";
     canvas.style.display = "block";
@@ -33,12 +48,18 @@ function restartGame() {
     init();
 }
 
+/**
+ * Hides the end screen, shows the start screen again and stops the winner sound.
+ */
 function goHome() {
     document.getElementById("end-screen").style.display = "none";
     document.getElementById("start-screen").style.display = "flex";
     AudioHub.stopOne(AudioHub.WINNER);
 }
 
+/**
+ * Wires up the controls dialog to open, close and close-on-backdrop-click.
+ */
 function setupControlsDialog() {
     let dialog = document.getElementById("controls-dialog");
 
@@ -57,6 +78,9 @@ function setupControlsDialog() {
     });
 }
 
+/**
+ * Loads the saved mute state and wires up the mute button.
+ */
 function setupMuteButton() {
     AudioHub.loadMutedState();
     let button = document.getElementById("muteBtn");
@@ -69,10 +93,17 @@ function setupMuteButton() {
     });
 }
 
+/**
+ * Updates the mute button's icon to match the current mute state.
+ * @param {HTMLElement} button - The mute button element.
+ */
 function updateMuteButtonIcon(button) {
     button.innerHTML = AudioHub.muted ? "&#128263;" : "&#128266;";
 }
 
+/**
+ * Wires up all four mobile touch control buttons to the keyboard state.
+ */
 function setupMobileControls() {
     bindControlButton("btnLeft", () => keyboard.LEFT = true, () => keyboard.LEFT = false);
     bindControlButton("btnRight", () => keyboard.RIGHT = true, () => keyboard.RIGHT = false);
@@ -80,6 +111,12 @@ function setupMobileControls() {
     bindControlButton("btnThrow", () => keyboard.F = true, () => keyboard.F = false);
 }
 
+/**
+ * Binds press and release handlers to a touch control button and disables its context menu.
+ * @param {string} id - The element ID of the button.
+ * @param {Function} onPress - Called when the button is pressed.
+ * @param {Function} onRelease - Called when the button is released.
+ */
 function bindControlButton(id, onPress, onRelease) {
     let button = document.getElementById(id);
     button.addEventListener("contextmenu", (e) => e.preventDefault());
@@ -93,6 +130,10 @@ function bindControlButton(id, onPress, onRelease) {
     }, { passive: false });
 }
 
+/**
+ * Positions the page title exactly halfway between the top of the page
+ * and the top of the game wrapper.
+ */
 function positionPageTitle() {
     let wrapper = document.getElementById("game-wrapper");
     let title = document.getElementById("page-title");
@@ -102,6 +143,10 @@ function positionPageTitle() {
     title.style.top = top + "px";
 }
 
+/**
+ * Recalculates and applies the game wrapper's size based on the current
+ * viewport, keeping its 3:2 aspect ratio and leaving room for the title.
+ */
 function resizeGameWrapper() {
     let wrapper = document.getElementById("game-wrapper");
     let title = document.getElementById("page-title");

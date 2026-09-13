@@ -3,6 +3,10 @@ import { IntervalHub } from "../hubs/interval-hub.class.js";
 import { ImageHub } from "../hubs/image-hub.class.js";
 import { AudioHub } from "../hubs/audio-hub.class.js";
 
+/**
+ * Represents the playable main character controlled by the user.
+ * @class
+ */
 export class Character extends MovableObject {
     height = 280;
     y = 150;
@@ -21,6 +25,10 @@ export class Character extends MovableObject {
     isSleeping = false;
 
     world;
+
+    /**
+     * Creates the character, loads all of its animations and starts moving.
+     */
     constructor() {
         super().loadImage(ImageHub.character.walking[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -33,6 +41,9 @@ export class Character extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the character's movement input and animation state intervals.
+     */
     animate() {
         IntervalHub.startInterval(() => {
             this.handleMovementInput();
@@ -43,6 +54,9 @@ export class Character extends MovableObject {
         }, 50);
     }
 
+    /**
+     * Reads the current keyboard state and moves or lets the character jump accordingly.
+     */
     handleMovementInput() {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight();
@@ -60,6 +74,10 @@ export class Character extends MovableObject {
         }
     }
 
+    /**
+     * Stops the running sound if the character just stopped moving,
+     * then picks and plays the correct animation for the current state.
+     */
     updateAnimationState() {
         let moving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
         if (this.wasMoving && !moving) {
@@ -69,6 +87,10 @@ export class Character extends MovableObject {
         this.wasMoving = moving;
     }
 
+    /**
+     * Chooses which animation to play based on the character's current state.
+     * @param {boolean} moving - True if the character is currently moving left or right.
+     */
     playCurrentAnimation(moving) {
         if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
@@ -85,16 +107,25 @@ export class Character extends MovableObject {
         }
     }
 
+    /**
+     * Plays the walking animation and the running sound.
+     */
     playWalkingFrame() {
         this.playAnimation(this.IMAGES_WALKING);
         this.playRunSoundOnce();
     }
 
+    /**
+     * Plays the long-idle (sleeping) animation and the snoring sound.
+     */
     playLongIdleFrame() {
         this.playAnimation(this.IMAGES_LONG_IDLE);
         this.playSnoringSoundOnce();
     }
 
+    /**
+     * Advances the jumping animation, slowed down to every third call.
+     */
     playJumpingFrame() {
         this.jumpFrameCounter++;
         if (this.jumpFrameCounter % 3 === 0) {
@@ -102,6 +133,9 @@ export class Character extends MovableObject {
         }
     }
 
+    /**
+     * Advances the idle animation, slowed down to every third call.
+     */
     playIdleFrame() {
         this.idleFrameCounter++;
         if (this.idleFrameCounter % 3 === 0) {
@@ -110,6 +144,9 @@ export class Character extends MovableObject {
         this.isSleeping = false;
     }
 
+    /**
+     * Plays the running sound once, only when movement just started.
+     */
     playRunSoundOnce() {
         if (!this.wasMoving) {
             AudioHub.playOne(AudioHub.CHARACTER_RUN);
@@ -117,6 +154,9 @@ export class Character extends MovableObject {
         this.isSleeping = false;
     }
 
+    /**
+     * Plays the snoring sound once, only when long-idle just started.
+     */
     playSnoringSoundOnce() {
         if (!this.isSleeping) {
             AudioHub.playOne(AudioHub.CHARACTER_SNORING);
@@ -124,16 +164,26 @@ export class Character extends MovableObject {
         }
     }
 
+    /**
+     * Checks whether the character has been inactive for more than 15 seconds.
+     * @returns {boolean} True if the character should show the long-idle animation.
+     */
     isLongIdle() {
         let timeSinceAction = new Date().getTime() - this.lastActionTime;
         return timeSinceAction > 15000;
     }
 
+    /**
+     * Makes the character jump and plays the jump sound.
+     */
     jump() {
         this.speedY = 25;
         AudioHub.playOne(AudioHub.CHARACTER_JUMP);
     }
 
+    /**
+     * Reduces the character's energy by 20 and records the time of the hit.
+     */
     hit() {
         this.energy -= 20;
         if (this.energy < 0) {

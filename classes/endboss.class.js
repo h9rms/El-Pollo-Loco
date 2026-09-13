@@ -2,6 +2,11 @@ import { MovableObject } from "./movable-object.class.js";
 import { IntervalHub } from "../hubs/interval-hub.class.js";
 import { ImageHub } from "../hubs/image-hub.class.js";
 
+/**
+ * Represents the final boss of the level. It chases the player once it has
+ * engaged, attacks on contact and needs several bottle hits to be defeated.
+ * @class
+ */
 export class Endboss extends MovableObject {
     height = 400;
     width = 250;
@@ -21,6 +26,9 @@ export class Endboss extends MovableObject {
 
     speed = 3;
 
+    /**
+     * Creates the Endboss at its fixed starting position and loads all of its animations.
+     */
     constructor() {
         super();
         this.loadImage(this.IMAGES_WALKING[0]);
@@ -33,6 +41,9 @@ export class Endboss extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the boss's chasing movement and animation state intervals.
+     */
     animate() {
         IntervalHub.startInterval(() => {
             this.chasePlayer();
@@ -43,6 +54,9 @@ export class Endboss extends MovableObject {
         }, 300);
     }
 
+    /**
+     * Picks and plays the correct animation based on the boss's current state.
+     */
     updateAnimationState() {
         if (this.dead) {
             return;
@@ -57,6 +71,10 @@ export class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Updates the boss's facing direction and moves it towards the player,
+     * as long as it has engaged and is not already attacking.
+     */
     chasePlayer() {
         if (this.dead || !this.isPlayerNear()) {
             return;
@@ -72,6 +90,11 @@ export class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Checks whether the player is close enough to engage the boss.
+     * Once engaged, this stays true for the rest of the fight.
+     * @returns {boolean} True if the boss has engaged the player.
+     */
     isPlayerNear() {
         if (!this.world) {
             return false;
@@ -83,6 +106,10 @@ export class Endboss extends MovableObject {
         return this.hasEngaged;
     }
 
+    /**
+     * Checks whether the boss is currently touching the player.
+     * @returns {boolean} True if the boss is colliding with the character.
+     */
     isAttacking() {
         if (!this.world) {
             return false;
@@ -90,6 +117,9 @@ export class Endboss extends MovableObject {
         return this.world.character.isColliding(this);
     }
 
+    /**
+     * Reduces the boss's energy and briefly shows the hurt animation.
+     */
     hit() {
         this.energy -= 5;
         if (this.energy < 0) {
@@ -101,6 +131,10 @@ export class Endboss extends MovableObject {
         }, 500);
     }
 
+    /**
+     * Checks whether the boss's energy has reached zero.
+     * @returns {boolean} True if the boss is dead.
+     */
     isDead() {
         return this.energy == 0;
     }

@@ -1,3 +1,8 @@
+/**
+ * Central place for every image path used in the game, grouped by
+ * character, enemy type and UI element.
+ * @class
+ */
 export class ImageHub {
     static character = {
         idle: [
