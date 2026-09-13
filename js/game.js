@@ -178,6 +178,37 @@ function positionPageTitle() {
  * viewport, keeping its 3:2 aspect ratio and leaving room for the title.
  */
 function resizeGameWrapper() {
+    if (isMobileLandscape()) {
+        resizeForMobileLandscape();
+    } else {
+        resizeForDesktop();
+    }
+    positionPageTitle();
+}
+
+/**
+ * Checks whether the current viewport matches the small-screen landscape
+ * breakpoint used for mobile touch controls.
+ * @returns {boolean} True if the viewport is a small landscape screen.
+ */
+function isMobileLandscape() {
+    return window.innerWidth <= 1024 && window.innerWidth > window.innerHeight;
+}
+
+/**
+ * Sizes the game wrapper to fill the full viewport height and 75% of its width.
+ */
+function resizeForMobileLandscape() {
+    let wrapper = document.getElementById("game-wrapper");
+    wrapper.style.width = (window.innerWidth * 0.75) + "px";
+    wrapper.style.height = window.innerHeight + "px";
+}
+
+/**
+ * Sizes the game wrapper to fit the viewport while keeping its 3:2 aspect
+ * ratio and leaving room for the title and imprint link.
+ */
+function resizeForDesktop() {
     let wrapper = document.getElementById("game-wrapper");
     let title = document.getElementById("page-title");
     let imprintLink = document.getElementById("imprintLink");
@@ -189,7 +220,6 @@ function resizeGameWrapper() {
     let height = width * (2 / 3);
     wrapper.style.width = width + "px";
     wrapper.style.height = height + "px";
-    positionPageTitle();
 }
 
 window.addEventListener("DOMContentLoaded", () => {
