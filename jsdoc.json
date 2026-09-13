@@ -1,0 +1,29 @@
+{
+    "source": {
+        "include": [
+            "classes/background-object.class.js",
+            "classes/bottle-pickup.class.js",
+            "classes/character.class.js",
+            "classes/chicken.class.js",
+            "classes/cloud.class.js",
+            "classes/coin.class.js",
+            "classes/drawable-object.class.js",
+            "classes/endboss.class.js",
+            "classes/keyboard.class.js",
+            "classes/level.class.js",
+            "classes/movable-object.class.js",
+            "classes/small-chicken.class.js",
+            "classes/status-bar.class.js",
+            "classes/throwable-object.class.js",
+            "classes/world.class.js",
+            "hubs/audio-hub.class.js",
+            "hubs/image-hub.class.js",
+            "hubs/interval-hub.class.js",
+            "js/game.js",
+            "levels/level1.js"
+        ]
+    },
+    "opts": {
+        "destination": "./out"
+    }
+}
