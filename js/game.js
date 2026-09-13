@@ -90,7 +90,19 @@ function setupMuteButton() {
         AudioHub.setMuted(!AudioHub.muted);
         updateMuteButtonIcon(button);
         button.blur();
+        ensureBackgroundMusicPlaying();
     });
+}
+
+/**
+ * Starts the background music if the game is currently running, the game
+ * is not muted and the music is not already playing.
+ */
+function ensureBackgroundMusicPlaying() {
+    let gameActive = canvas.style.display === "block";
+    if (!AudioHub.muted && gameActive && AudioHub.BACKGROUND_MUSIC.file.paused) {
+        AudioHub.playMusic(AudioHub.BACKGROUND_MUSIC);
+    }
 }
 
 /**
