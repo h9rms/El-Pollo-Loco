@@ -4,7 +4,10 @@
  * @class
  */
 export class IntervalHub {
-    /** @type {number[]} All currently registered interval IDs. */
+    /**
+     * All currently registered interval IDs.
+     * @type {number[]}
+     */
     static allIntervals = [];
 
     /**

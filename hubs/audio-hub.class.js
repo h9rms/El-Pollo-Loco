@@ -50,7 +50,10 @@ export class AudioHub {
 
     static BOTTLE_BREAK = new MyAudio("assets/audio/sounds/throwable/bottleBreak.mp3");
 
-    /** @type {MyAudio[]} Every sound defined above, used for muting and stopping all at once. */
+    /**
+     * Every sound defined above, used for muting and stopping all at once.
+     * @type {MyAudio[]}
+     */
     static allSounds = [
         AudioHub.CHARACTER_DAMAGE,
         AudioHub.CHARACTER_DEAD,
