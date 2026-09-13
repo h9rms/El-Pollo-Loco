@@ -150,8 +150,10 @@ function positionPageTitle() {
 function resizeGameWrapper() {
     let wrapper = document.getElementById("game-wrapper");
     let title = document.getElementById("page-title");
+    let imprintLink = document.getElementById("imprintLink");
     let titleHeight = title.offsetHeight;
-    let availableHeight = window.innerHeight - titleHeight;
+    let imprintHeight = imprintLink.offsetHeight;
+    let availableHeight = window.innerHeight - titleHeight - imprintHeight;
     let maxWidthFromHeight = availableHeight * 1.5;
     let width = Math.min(720, window.innerWidth, maxWidthFromHeight);
     let height = width * (2 / 3);
