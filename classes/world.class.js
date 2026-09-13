@@ -2,8 +2,7 @@ import { Character } from "../classes/character.class.js";
 import { StatusBar } from "../classes/status-bar.class.js";
 import { ThrowableObject } from "../classes/throwable-object.class.js";
 import { Endboss } from "../classes/endboss.class.js";
-import { Chicken } from "../classes/chicken.class.js";
-import { SmallChicken } from "../classes/small-chicken.class.js";
+import { CollisionManager } from "../classes/collision-manager.class.js";
 import { createLevel1 } from "../levels/level1.js";
 import { IntervalHub } from "../hubs/interval-hub.class.js";
 import { ImageHub } from "../hubs/image-hub.class.js";
@@ -31,6 +30,7 @@ export class World {
     throwLocked = false;
     gameOver = false;
     endbossApproachPlayed = false;
+    collisionManager = new CollisionManager(this);
 
     /**
      * Creates a new World, wires up the status bars, starts the background
@@ -84,12 +84,12 @@ export class World {
      */
     run() {
         IntervalHub.startInterval(() => {
-            this.checkCollision();
+            this.collisionManager.checkCollision();
             this.checkThrowObjects();
-            this.checkBottleCollisions();
-            this.checkBottleGroundImpact();
+            this.collisionManager.checkBottleCollisions();
+            this.collisionManager.checkBottleGroundImpact();
             this.checkGameOver();
-            this.checkCollectables();
+            this.collisionManager.checkCollectables();
             this.checkEndbossApproach();
         }, 1000 / 60);
     }
@@ -111,175 +111,6 @@ export class World {
         if(!this.keyboard.F){
             this.throwLocked = false;
         }
-    }
-
-    /**
-     * Checks every living enemy for a collision with the character.
-     */
-    checkCollision() {
-        [...this.level.enemies].forEach((enemy) => {
-            if (!enemy.dead && this.character.isColliding(enemy)) {
-                this.handleEnemyCollision(enemy);
-            }
-        });
-    }
-
-    /**
-     * Kills the enemy if the character jumped on top of it, otherwise
-     * damages the character.
-     * @param {MovableObject} enemy - The enemy the character collided with.
-     */
-    handleEnemyCollision(enemy) {
-        if (this.isJumpingOnTop(enemy) && !(enemy instanceof Endboss)) {
-            this.killEnemy(enemy);
-            this.character.jump();
-        } else if (!this.character.isHurt()) {
-            this.character.hit();
-            this.statusBar.setPercentage(this.character.energy);
-            AudioHub.playOne(AudioHub.CHARACTER_DAMAGE);
-        }
-    }
-
-    /**
-     * Checks whether the character is currently falling onto the given enemy.
-     * @param {MovableObject} enemy - The enemy to check against.
-     * @returns {boolean} True if this counts as a stomp attack.
-     */
-    isJumpingOnTop(enemy) {
-        return this.character.speedY < 0 && this.character.y + this.character.height < enemy.y + enemy.height * 0.7;
-    }
-
-    /**
-     * Marks an enemy as dead, plays its death sound and starts its death sequence.
-     * @param {MovableObject} enemy - The enemy to kill.
-     */
-    killEnemy(enemy) {
-        if (enemy.dead) {
-            return;
-        }
-        enemy.dead = true;
-        this.playEnemyDeathSound(enemy);
-        if (enemy instanceof Endboss) {
-            this.playEndbossDeathSequence(enemy);
-        } else {
-            this.showDeathImage(enemy);
-            setTimeout(() => {
-                this.removeEnemyFromLevel(enemy);
-            }, 900);
-        }
-    }
-
-    /**
-     * Plays the endboss's death animation frame by frame before removing it from the level.
-     * @param {Endboss} enemy - The endboss that was defeated.
-     */
-    playEndbossDeathSequence(enemy) {
-        let frameDelay = 600;
-        enemy.IMAGES_DEAD.forEach((path, index) => {
-            setTimeout(() => {
-                enemy.loadImage(path);
-            }, index * frameDelay);
-        });
-        let lastFrameTime = (enemy.IMAGES_DEAD.length - 1) * frameDelay;
-        let holdAfterLastFrame = 600;
-        let totalDuration = lastFrameTime + holdAfterLastFrame;
-        setTimeout(() => {
-            this.removeEnemyFromLevel(enemy);
-        }, totalDuration);
-    }
-
-    /**
-     * Switches a chicken or small chicken to its static death image.
-     * @param {MovableObject} enemy - The enemy that was killed.
-     */
-    showDeathImage(enemy) {
-        if (enemy instanceof SmallChicken) {
-            enemy.loadImage(ImageHub.smallChicken.dead);
-        } else if (enemy instanceof Chicken) {
-            enemy.loadImage(ImageHub.chicken.dead);
-        }
-    }
-
-    /**
-     * Removes an enemy from the level's enemy list.
-     * @param {MovableObject} enemy - The enemy to remove.
-     */
-    removeEnemyFromLevel(enemy) {
-        let index = this.level.enemies.indexOf(enemy);
-        if (index > -1) {
-            this.level.enemies.splice(index, 1);
-        }
-    }
-
-    /**
-     * Plays the matching death sound for the given enemy type.
-     * @param {MovableObject} enemy - The enemy that was killed.
-     */
-    playEnemyDeathSound(enemy) {
-        if (enemy instanceof SmallChicken) {
-            AudioHub.playOne(AudioHub.CHICKEN_DEAD_2);
-        } else if (enemy instanceof Chicken) {
-            AudioHub.playOne(AudioHub.CHICKEN_DEAD);
-        }
-    }
-
-    /**
-     * Checks every thrown bottle for a collision with a living enemy.
-     */
-    checkBottleCollisions() {
-        [...this.throwableObjects].forEach((bottle) => {
-            [...this.level.enemies].forEach((enemy) => {
-                if (enemy.dead) {
-                    return;
-                }
-                if (bottle.isColliding(enemy)) {
-                    AudioHub.playOne(AudioHub.BOTTLE_BREAK);
-                    this.damageEnemy(enemy);
-                    this.removeBottle(bottle);
-                }
-            });
-        });
-    }
-
-    /**
-     * Damages the given enemy. The endboss loses energy and its status bar
-     * updates, while any other enemy is killed instantly.
-     * @param {MovableObject} enemy - The enemy hit by a bottle.
-     */
-    damageEnemy(enemy) {
-        if (enemy instanceof Endboss) {
-            enemy.hit();
-            this.endbossStatusBar.setPercentage((enemy.energy / enemy.maxEnergy) * 100);
-            if (enemy.isDead()) {
-                this.killEnemy(enemy);
-            }
-        } else {
-            this.killEnemy(enemy);
-        }
-    }
-
-    /**
-     * Removes a thrown bottle from the list of active throwable objects.
-     * @param {ThrowableObject} bottle - The bottle to remove.
-     */
-    removeBottle(bottle) {
-        let index = this.throwableObjects.indexOf(bottle);
-        if (index > -1) {
-            this.throwableObjects.splice(index, 1);
-        }
-    }
-
-    /**
-     * Checks every thrown bottle for reaching ground level and removes it,
-     * playing the impact sound.
-     */
-    checkBottleGroundImpact() {
-        [...this.throwableObjects].forEach((bottle) => {
-            if (bottle.y + bottle.height >= 430) {
-                AudioHub.playOne(AudioHub.BOTTLE_BREAK);
-                this.removeBottle(bottle);
-            }
-        });
     }
 
     /**
@@ -330,66 +161,6 @@ export class World {
             AudioHub.playOne(AudioHub.ENDBOSS_APPROACH);
             this.endbossApproachPlayed = true;
         }
-    }
-
-    /**
-     * Checks for both coin and bottle collection.
-     */
-    checkCollectables() {
-        this.checkCoinCollection();
-        this.checkBottlePickupCollection();
-    }
-
-    /**
-     * Checks every coin in the level for a collision with the character.
-     */
-    checkCoinCollection() {
-        [...this.level.coins].forEach((coin) => {
-            if (this.character.isColliding(coin)) {
-                this.collectCoin(coin);
-            }
-        });
-    }
-
-    /**
-     * Removes a coin from the level, increases the coin count and updates
-     * the coin status bar and sound.
-     * @param {Coin} coin - The coin that was collected.
-     */
-    collectCoin(coin) {
-        let index = this.level.coins.indexOf(coin);
-        if (index > -1) {
-            this.level.coins.splice(index, 1);
-        }
-        this.coinCount = Math.min(this.coinCount + 1, 5);
-        this.coinStatusBar.setPercentage(this.coinCount * 20);
-        AudioHub.playOne(AudioHub.COIN_COLLECT);
-    }
-
-    /**
-     * Checks every bottle pickup in the level for a collision with the character.
-     */
-    checkBottlePickupCollection() {
-        [...this.level.bottles].forEach((bottle) => {
-            if (this.character.isColliding(bottle)) {
-                this.collectBottlePickup(bottle);
-            }
-        });
-    }
-
-    /**
-     * Removes a bottle pickup from the level, increases the bottle count and
-     * updates the bottle status bar and sound.
-     * @param {BottlePickup} bottle - The bottle pickup that was collected.
-     */
-    collectBottlePickup(bottle) {
-        let index = this.level.bottles.indexOf(bottle);
-        if (index > -1) {
-            this.level.bottles.splice(index, 1);
-        }
-        this.bottleCount = Math.min(this.bottleCount + 1, 5);
-        this.bottleStatusBar.setPercentage(this.bottleCount * 20);
-        AudioHub.playOne(AudioHub.BOTTLE_COLLECT);
     }
 
     /**

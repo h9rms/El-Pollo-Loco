@@ -7,6 +7,7 @@
             "classes/chicken.class.js",
             "classes/cloud.class.js",
             "classes/coin.class.js",
+            "classes/collision-manager.class.js",
             "classes/drawable-object.class.js",
             "classes/endboss.class.js",
             "classes/keyboard.class.js",
