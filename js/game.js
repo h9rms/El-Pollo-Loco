@@ -21,6 +21,7 @@ function init() {
 function startGame() {
     document.getElementById("start-screen").style.display = "none";
     canvas.style.display = "block";
+    showMobileControls();
     AudioHub.playOne(AudioHub.GAME_START);
     init();
 }
@@ -31,6 +32,7 @@ function startGame() {
  */
 function showEndScreen(won) {
     canvas.style.display = "none";
+    hideMobileControls();
     let endScreen = document.getElementById("end-screen");
     endScreen.classList.toggle("won", won);
     endScreen.classList.toggle("lost", !won);
@@ -44,6 +46,7 @@ function showEndScreen(won) {
 function restartGame() {
     document.getElementById("end-screen").style.display = "none";
     canvas.style.display = "block";
+    showMobileControls();
     AudioHub.stopOne(AudioHub.WINNER);
     init();
 }
@@ -54,7 +57,22 @@ function restartGame() {
 function goHome() {
     document.getElementById("end-screen").style.display = "none";
     document.getElementById("start-screen").style.display = "flex";
+    hideMobileControls();
     AudioHub.stopOne(AudioHub.WINNER);
+}
+
+/**
+ * Shows the mobile touch controls, if the current screen size calls for them.
+ */
+function showMobileControls() {
+    document.getElementById("mobile-controls").classList.add("active");
+}
+
+/**
+ * Hides the mobile touch controls.
+ */
+function hideMobileControls() {
+    document.getElementById("mobile-controls").classList.remove("active");
 }
 
 /**
