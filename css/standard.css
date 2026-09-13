@@ -15,8 +15,7 @@
     src: url("../assets/fonts/bangers-v25-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+ */
 }
 
-html,
-body {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;

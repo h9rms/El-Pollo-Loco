@@ -48,7 +48,6 @@ canvas{
     justify-content: flex-end;
     width: 100%;
     height: 100%;
-    /* Hintergrundbild Startscreen */
     background-image: url("assets/img/assets/images/9_intro_outro_screens/start/startscreen_1.png");
     background-size: cover;
     background-position: center;
@@ -157,8 +156,6 @@ canvas{
     box-sizing: border-box;
 }
 
-/* TODO: Pfade pruefen/anpassen, sobald die genauen Dateinamen aus
-   "You won you lost" bekannt sind */
 #end-screen.won {
     background-image: url("assets/img/assets/images/You won, you lost/You won A.png");
 }
@@ -192,7 +189,6 @@ canvas{
     touch-action: manipulation;
 }
 
-/* Kleine Bildgeraete im Hochformat: Spielbereich ausblenden, Drehen-Hinweis zeigen */
 @media (max-width: 1024px) and (orientation: portrait) {
     #game-wrapper {
         display: none;
@@ -213,7 +209,6 @@ canvas{
     }
 }
 
-/* Kleine Bildgeraete im Querformat: Touch-Buttons einblenden */
 @media (max-width: 1024px) and (orientation: landscape) {
     #mobile-controls {
         display: flex;
