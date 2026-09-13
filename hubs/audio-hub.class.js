@@ -30,25 +30,25 @@ class MyAudio {
  * @class
  */
 export class AudioHub {
-    static CHARACTER_DAMAGE = new MyAudio("assets/audio/sounds/character/characterDamage.mp3");
-    static CHARACTER_DEAD = new MyAudio("assets/audio/sounds/character/characterDead.wav");
-    static CHARACTER_JUMP = new MyAudio("assets/audio/sounds/character/characterJump.wav");
-    static CHARACTER_RUN = new MyAudio("assets/audio/sounds/character/characterRun.mp3");
-    static CHARACTER_SNORING = new MyAudio("assets/audio/sounds/character/characterSnoring.mp3");
+    static CHARACTER_DAMAGE = new MyAudio("assets/audio/sounds/character/characterDamage.mp3", { volume: 0.5 });
+    static CHARACTER_DEAD = new MyAudio("assets/audio/sounds/character/characterDead.wav", { volume: 0.5 });
+    static CHARACTER_JUMP = new MyAudio("assets/audio/sounds/character/characterJump.wav", { volume: 0.5 });
+    static CHARACTER_RUN = new MyAudio("assets/audio/sounds/character/characterRun.mp3", { volume: 0.5 });
+    static CHARACTER_SNORING = new MyAudio("assets/audio/sounds/character/characterSnoring.mp3", { volume: 0.5 });
 
-    static CHICKEN_DEAD = new MyAudio("assets/audio/sounds/chicken/chickenDead.mp3");
-    static CHICKEN_DEAD_2 = new MyAudio("assets/audio/sounds/chicken/chickenDead2.mp3");
+    static CHICKEN_DEAD = new MyAudio("assets/audio/sounds/chicken/chickenDead.mp3", { volume: 0.5 });
+    static CHICKEN_DEAD_2 = new MyAudio("assets/audio/sounds/chicken/chickenDead2.mp3", { volume: 0.5 });
 
-    static BOTTLE_COLLECT = new MyAudio("assets/audio/sounds/collectibles/bottleCollectSound.wav");
-    static COIN_COLLECT = new MyAudio("assets/audio/sounds/collectibles/collectSound.wav");
+    static BOTTLE_COLLECT = new MyAudio("assets/audio/sounds/collectibles/bottleCollectSound.wav", { volume: 0.5 });
+    static COIN_COLLECT = new MyAudio("assets/audio/sounds/collectibles/collectSound.wav", { volume: 0.5 });
 
-    static ENDBOSS_APPROACH = new MyAudio("assets/audio/sounds/endboss/endbossApproach.wav");
+    static ENDBOSS_APPROACH = new MyAudio("assets/audio/sounds/endboss/endbossApproach.wav", { volume: 0.5 });
 
-    static GAME_START = new MyAudio("assets/audio/sounds/game/gameStart.mp3");
-    static BACKGROUND_MUSIC = new MyAudio("assets/audio/sounds/game/background-music.mp3", { volume: 0.3, loop: true });
-    static WINNER = new MyAudio("assets/audio/sounds/game/winner.mp3");
+    static GAME_START = new MyAudio("assets/audio/sounds/game/gameStart.mp3", { volume: 0.5 });
+    static BACKGROUND_MUSIC = new MyAudio("assets/audio/sounds/game/background-music.mp3", { volume: 0.15, loop: true });
+    static WINNER = new MyAudio("assets/audio/sounds/game/winner.mp3", { volume: 0.5 });
 
-    static BOTTLE_BREAK = new MyAudio("assets/audio/sounds/throwable/bottleBreak.mp3");
+    static BOTTLE_BREAK = new MyAudio("assets/audio/sounds/throwable/bottleBreak.mp3", { volume: 0.5 });
 
     /**
      * Every sound defined above, used for muting and stopping all at once.
