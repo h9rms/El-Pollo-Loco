@@ -2,6 +2,10 @@ import { MovableObject } from "./movable-object.class.js";
 import { IntervalHub } from "../hubs/interval-hub.class.js";
 import { ImageHub } from "../hubs/image-hub.class.js";
 
+/**
+ * Represents a regular enemy chicken that walks across the level.
+ * @class
+ */
 export class Chicken extends MovableObject {
     y = 350;
     height = 80;
@@ -9,6 +13,10 @@ export class Chicken extends MovableObject {
     drawFrameEnabled = false;
     dead = false;
     IMAGES_WALKING = ImageHub.chicken.walking;
+
+    /**
+     * Creates a new Chicken at a random position with a random walking speed.
+     */
     constructor() {
         super().loadImage(ImageHub.chicken.walking[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -17,6 +25,10 @@ export class Chicken extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the chicken's movement and walking animation intervals.
+     * Both stop reacting once the chicken is marked as dead.
+     */
     animate() {
         IntervalHub.startInterval(() => {
             if (!this.dead) {
