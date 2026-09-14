@@ -97,6 +97,23 @@ function setupControlsDialog() {
 }
 
 /**
+ * Wires up the imprint link to open the in-page imprint overlay,
+ * and the close button to hide it again.
+ */
+function setupImprintScreen() {
+    let screen = document.getElementById("imprint-screen");
+
+    document.getElementById("imprintLink").addEventListener("click", (e) => {
+        e.preventDefault();
+        screen.style.display = "flex";
+    });
+
+    document.getElementById("closeImprintBtn").addEventListener("click", () => {
+        screen.style.display = "none";
+    });
+}
+
+/**
  * Loads the saved mute state and wires up the mute button.
  */
 function setupMuteButton() {
@@ -228,6 +245,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("restartBtn").addEventListener("click", restartGame);
     document.getElementById("homeBtn").addEventListener("click", goHome);
     setupControlsDialog();
+    setupImprintScreen();
     setupMuteButton();
     setupMobileControls();
     resizeGameWrapper();

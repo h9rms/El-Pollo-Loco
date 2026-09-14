@@ -72,6 +72,43 @@ canvas{
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
 }
 
+#imprint-screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    overflow-y: auto;
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.imprint-box {
+    position: relative;
+    max-width: 700px;
+    width: 100%;
+    height: fit-content;
+    background: white;
+    border: 4px solid #f7931e;
+    border-radius: 16px;
+    padding: 32px 40px;
+    color: #333;
+}
+
+.imprint-box h1 {
+    font-family: "Bangers", cursive;
+    color: #f7931e;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-top: 0;
+}
+
+.imprint-box h2 {
+    color: #6b2d00;
+    margin-top: 24px;
+}
+
 .start-buttons button {
     padding: 8px 18px;
     font-size: 0.9rem;

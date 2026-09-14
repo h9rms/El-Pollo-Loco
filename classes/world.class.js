@@ -20,6 +20,7 @@ export class World {
     ctx;
     keyboard;
     camera_x = 0;
+    renderCameraX = 0;
     statusBar = new StatusBar();
     endbossStatusBar = new StatusBar();
     coinStatusBar = new StatusBar(ImageHub.statusBar.coin);
@@ -169,6 +170,7 @@ export class World {
      */
     draw() {
         this.updateCamera();
+        this.renderCameraX = Math.round(this.camera_x);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawBackground();
         this.drawStatusBars();
@@ -180,9 +182,9 @@ export class World {
      * Draws the scrolling background layers.
      */
     drawBackground() {
-        this.ctx.translate(this.camera_x, 0);
+        this.ctx.translate(this.renderCameraX, 0);
         this.addObjectsToMap(this.level.backgroundObject);
-        this.ctx.translate(-this.camera_x, 0);
+        this.ctx.translate(-this.renderCameraX, 0);
     }
 
     /**
@@ -201,14 +203,14 @@ export class World {
      * Draws the character and all moving world objects that scroll with the camera.
      */
     drawWorldObjects() {
-        this.ctx.translate(this.camera_x, 0);
+        this.ctx.translate(this.renderCameraX, 0);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.throwableObjects);
-        this.ctx.translate(-this.camera_x, 0);
+        this.ctx.translate(-this.renderCameraX, 0);
     }
 
     /**

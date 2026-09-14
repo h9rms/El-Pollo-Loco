@@ -24,9 +24,10 @@ export class CollisionManager {
      * Checks every living enemy for a collision with the character.
      */
     checkCollision() {
+        let wasFalling = this.world.character.speedY < 0;
         [...this.world.level.enemies].forEach((enemy) => {
             if (!enemy.dead && this.world.character.isColliding(enemy)) {
-                this.handleEnemyCollision(enemy);
+                this.handleEnemyCollision(enemy, wasFalling);
             }
         });
     }
@@ -35,9 +36,10 @@ export class CollisionManager {
      * Kills the enemy if the character jumped on top of it, otherwise
      * damages the character.
      * @param {MovableObject} enemy - The enemy the character collided with.
+     * @param {boolean} wasFalling - True if the character was falling at the start of this check.
      */
-    handleEnemyCollision(enemy) {
-        if (this.isJumpingOnTop(enemy) && !(enemy instanceof Endboss)) {
+    handleEnemyCollision(enemy, wasFalling) {
+        if (this.isJumpingOnTop(enemy, wasFalling) && !(enemy instanceof Endboss)) {
             this.killEnemy(enemy);
             this.world.character.jump();
         } else if (!this.world.character.isHurt()) {
@@ -48,12 +50,13 @@ export class CollisionManager {
     }
 
     /**
-     * Checks whether the character is currently falling onto the given enemy.
+     * Checks whether the character was falling onto the given enemy.
      * @param {MovableObject} enemy - The enemy to check against.
+     * @param {boolean} wasFalling - True if the character was falling at the start of this check.
      * @returns {boolean} True if this counts as a stomp attack.
      */
-    isJumpingOnTop(enemy) {
-        return this.world.character.speedY < 0 && this.world.character.y + this.world.character.height < enemy.y + enemy.height * 0.7;
+    isJumpingOnTop(enemy, wasFalling) {
+        return wasFalling && this.world.character.y + this.world.character.height < enemy.y + 35;
     }
 
     /**
