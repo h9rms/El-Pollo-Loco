@@ -1,6 +1,7 @@
 import { Endboss } from "./endboss.class.js";
 import { Chicken } from "./chicken.class.js";
 import { SmallChicken } from "./small-chicken.class.js";
+import { BottleSplash } from "./bottle-splash.class.js";
 import { ImageHub } from "../hubs/image-hub.class.js";
 import { AudioHub } from "../hubs/audio-hub.class.js";
 
@@ -157,11 +158,20 @@ export class CollisionManager {
                 }
                 if (bottle.isColliding(enemy)) {
                     AudioHub.playOne(AudioHub.BOTTLE_BREAK);
+                    this.spawnSplash(bottle);
                     this.damageEnemy(enemy);
                     this.removeBottle(bottle);
                 }
             });
         });
+    }
+
+    /**
+     * Spawns a splash animation at the bottle's current position.
+     * @param {ThrowableObject} bottle - The bottle that hit something.
+     */
+    spawnSplash(bottle) {
+        this.world.splashEffects.push(new BottleSplash(bottle.x, bottle.y));
     }
 
     /**
@@ -200,6 +210,7 @@ export class CollisionManager {
         [...this.world.throwableObjects].forEach((bottle) => {
             if (bottle.y + bottle.height >= 430) {
                 AudioHub.playOne(AudioHub.BOTTLE_BREAK);
+                this.spawnSplash(bottle);
                 this.removeBottle(bottle);
             }
         });

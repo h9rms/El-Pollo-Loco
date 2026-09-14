@@ -28,6 +28,7 @@ export class World {
     coinCount = 0;
     bottleCount = 0;
     throwableObjects = [];
+    splashEffects = [];
     throwLocked = false;
     gameOver = false;
     endbossApproachPlayed = false;
@@ -92,7 +93,15 @@ export class World {
             this.checkGameOver();
             this.collisionManager.checkCollectables();
             this.checkEndbossApproach();
+            this.removeFinishedSplashes();
         }, 1000 / 60);
+    }
+
+    /**
+     * Removes every splash effect that has finished playing its animation.
+     */
+    removeFinishedSplashes() {
+        this.splashEffects = this.splashEffects.filter((splash) => !splash.finished);
     }
 
     /**
@@ -210,6 +219,7 @@ export class World {
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.splashEffects);
         this.ctx.translate(-this.renderCameraX, 0);
     }
 

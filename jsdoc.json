@@ -3,6 +3,7 @@
         "include": [
             "classes/background-object.class.js",
             "classes/bottle-pickup.class.js",
+            "classes/bottle-splash.class.js",
             "classes/character.class.js",
             "classes/chicken.class.js",
             "classes/cloud.class.js",
