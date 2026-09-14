@@ -3,8 +3,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/standard.css" />
+        <link rel="stylesheet" href="./css/imprint.css" />
         <link rel="stylesheet" href="style.css" />
-        <link rel="shortcut icon" href="./assets/icon/favicon_mexican.png" type="image/x-icon">
         <title>El Pollo Loco</title>
     </head>
     <body>
@@ -16,6 +16,7 @@
 
         <div id="game-wrapper">
             <button id="muteBtn" class="mute-btn">&#128266;</button>
+            <button id="imprintLink" class="imprint-btn">&#8505;</button>
 
             <div id="start-screen">
                 <div class="start-buttons">
@@ -24,9 +25,14 @@
                 </div>
             </div>
 
-            <canvas id="canvas" width="720" height="480" style="display:none;"></canvas>
+            <canvas
+                id="canvas"
+                width="720"
+                height="480"
+                style="display: none"
+            ></canvas>
 
-            <div id="end-screen" style="display:none;">
+            <div id="end-screen" style="display: none">
                 <div class="start-buttons">
                     <button id="restartBtn">Restart</button>
                     <button id="homeBtn">Back to Start</button>
@@ -45,11 +51,11 @@
             </div>
         </div>
 
-        <a href="#" id="imprintLink" class="imprint-link">Imprint</a>
-
-        <div id="imprint-screen" style="display:none;">
+        <div id="imprint-screen" style="display: none">
             <div class="imprint-box">
-                <button id="closeImprintBtn" class="dialog-close">&times;</button>
+                <button id="closeImprintBtn" class="dialog-close">
+                    &times;
+                </button>
                 <h1>Imprint</h1>
 
                 <h2>Information according to legal requirements</h2>
@@ -60,29 +66,7 @@
                 </p>
 
                 <h2>Contact</h2>
-                <p>
-                    Email: hermannejrich@icloud.com
-                </p>
-
-                <h2>Responsible for content</h2>
-                <p>
-                    Hermann Ejrich<br />
-                    97980 Bad Mergentheim
-                </p>
-
-                <h2>Disclaimer</h2>
-                <p>
-                    This project was created as part of a coding bootcamp for
-                    educational purposes only. It is not a commercial product.
-                    All graphics and assets used belong to their respective owners.
-                </p>
-
-                <h2>Liability for links</h2>
-                <p>
-                    This page may contain links to external websites. We have no
-                    influence on the content of those external sites and
-                    therefore cannot accept any liability for it.
-                </p>
+                <p>Email: hermannejrich@icloud.com</p>
             </div>
         </div>
 

@@ -223,15 +223,13 @@ function resizeForMobileLandscape() {
 
 /**
  * Sizes the game wrapper to fit the viewport while keeping its 3:2 aspect
- * ratio and leaving room for the title and imprint link.
+ * ratio and leaving room for the title.
  */
 function resizeForDesktop() {
     let wrapper = document.getElementById("game-wrapper");
     let title = document.getElementById("page-title");
-    let imprintLink = document.getElementById("imprintLink");
     let titleHeight = title.offsetHeight;
-    let imprintHeight = imprintLink.offsetHeight;
-    let availableHeight = window.innerHeight - titleHeight - imprintHeight;
+    let availableHeight = window.innerHeight - titleHeight;
     let maxWidthFromHeight = availableHeight * 1.5;
     let width = Math.min(720, window.innerWidth, maxWidthFromHeight);
     let height = width * (2 / 3);
