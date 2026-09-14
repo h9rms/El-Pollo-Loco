@@ -11,6 +11,7 @@ import { AudioHub } from "../hubs/audio-hub.class.js";
  */
 export class CollisionManager {
     world;
+    recentlyStomped = false;
 
     /**
      * Creates a new CollisionManager for the given world.
@@ -24,7 +25,7 @@ export class CollisionManager {
      * Checks every living enemy for a collision with the character.
      */
     checkCollision() {
-        let wasFalling = this.world.character.speedY < 0;
+        let wasFalling = this.world.character.speedY < 0 || this.recentlyStomped;
         [...this.world.level.enemies].forEach((enemy) => {
             if (!enemy.dead && this.world.character.isColliding(enemy)) {
                 this.handleEnemyCollision(enemy, wasFalling);
@@ -41,12 +42,24 @@ export class CollisionManager {
     handleEnemyCollision(enemy, wasFalling) {
         if (this.isJumpingOnTop(enemy, wasFalling) && !(enemy instanceof Endboss)) {
             this.killEnemy(enemy);
+            this.markRecentlyStomped();
             this.world.character.jump();
         } else if (!this.world.character.isHurt()) {
             this.world.character.hit();
             this.world.statusBar.setPercentage(this.world.character.energy);
             AudioHub.playOne(AudioHub.CHARACTER_DAMAGE);
         }
+    }
+
+    /**
+     * Keeps stomp kills valid for a short grace period, covering enemies
+     * that only register a tick or two after the first kill.
+     */
+    markRecentlyStomped() {
+        this.recentlyStomped = true;
+        setTimeout(() => {
+            this.recentlyStomped = false;
+        }, 100);
     }
 
     /**
