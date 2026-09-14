@@ -18,13 +18,4 @@ export class BackgroundObject extends MovableObject{
         this.y = 480 - this.height;
         this.x = x;
     }
-
-    /**
-     * Draws the tile slightly wider than its logical width so it overlaps
-     * the next tile by one pixel, hiding any seam caused by canvas scaling.
-     * @param {CanvasRenderingContext2D} ctx - The canvas context to draw onto.
-     */
-    draw(ctx) {
-        ctx.drawImage(this.img, Math.round(this.x), Math.round(this.y), this.width + 1, this.height);
-    }
 }
